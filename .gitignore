@@ -1,0 +1,12 @@
+# Neovim runtime cache
+nvim/.local/
+nvim/.cache/
+nvim/.undo/
+nvim/.backup/
+nvim/.swap/
+
+# Lazy.nvim 本体（共有しない）
+nvim/lazy/
+
+# OS依存
+.DS_Store
