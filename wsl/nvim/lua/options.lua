@@ -9,6 +9,15 @@ vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 -- クリップボードをシステムクリップボードに連携（コピー/ペーストがOSと同期）
 vim.opt.clipboard = "unnamedplus"
+-- 保存時に自動で改行コードをUnix(LF)に変換し、^Mを削除する設定
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local save_cursor = vim.fn.getpos(".")
+    vim.cmd([[%s/\r//ge]])
+    vim.fn.setpos(".", save_cursor)
+  end,
+})
 -- 検索時に大文字小文字を無視
 vim.opt.ignorecase = true
 -- 大文字が含まれている場合のみ大文字小文字を区別（ignorecaseと組み合わせ）
