@@ -72,7 +72,7 @@ require("lazy").setup({
   "folke/tokyonight.nvim",
 })
 
--- �v���O�C��������
+-- keybinds 
 vim.cmd.colorscheme("tokyonight")
 require("lualine").setup()
 require("which-key").setup()
