@@ -73,3 +73,5 @@ map("n", "<Leader>e", "<cmd>NvimTreeToggle<CR>", opts)
 -- LSP関連
 -- LSPが有効なバッファで leader + ca を押すと修正案を出す
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true })
+-- leader + k (小文字) でエラーの詳細をポップアップ表示
+vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, { silent = true })
