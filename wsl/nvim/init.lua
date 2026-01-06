@@ -9,17 +9,17 @@ require('options')
 -- キーマップの設定を読み込み
 require('keymaps')
 
--- プラグインの設定を読み込み
-require('plugins')
-
--- lsp設定
-require('lsp')
+-- lsp設定は lazy.nvim 後に読み込む（plugins に依存するため）
 
 -- lazy.nvimでプラグインをセットアップ
 require("lazy").setup(require("plugins"))
 
+-- lsp設定（plugins 読み込み後に実行）
+require('lsp')
+
 -- カラースキームを設定（tokyonightテーマを使用）
-vim.cmd.colorscheme("tokyonight")
+-- カラースキームを設定（draculaテーマを使用）
+vim.cmd.colorscheme("dracula")
 
 -- ステータスラインの設定（lualine）
 require("lualine").setup()
@@ -50,7 +50,7 @@ require("todo-comments").setup()
 
 
 -- setup
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme("dracula")
 require("lualine").setup()
 require("which-key").setup()
 require("bufferline").setup()

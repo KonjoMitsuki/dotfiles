@@ -1,6 +1,6 @@
 -- plugins.lua: Neovimプラグイン設定ファイル（lazy.nvim使用）
 
-require("lazy").setup({
+return {
 
   -- ===== LSP（Language Server Protocol） =====
   -- LSP設定のコアプラグイン
@@ -68,7 +68,7 @@ require("lazy").setup({
   "goolord/alpha-nvim",
 
   -- ===== Theme（テーマ） =====
-  -- TokyoNightカラースキーム
-  "folke/tokyonight.nvim",
-})
+  -- Draculaカラースキーム
+  "Mofiqul/dracula.nvim",
+}
 

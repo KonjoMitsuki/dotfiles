@@ -11,8 +11,8 @@ config.window_close_confirmation = "NeverPrompt"
 
 -- フォント設定（JetBrainsMono Nerd Fontを使用）
 config.font = wezterm.font("JetBrainsMono Nerd Font")
--- Tokyo Nightテーマを設定
-config.color_scheme = "Tokyo Night"
+-- Draculaテーマを設定
+config.color_scheme = "Dracula"
 
 -- デフォルトのマウスバインディングを無効化しない
 config.disable_default_mouse_bindings = false
