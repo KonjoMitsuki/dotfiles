@@ -19,8 +19,9 @@ config.disable_default_mouse_bindings = false
 
 -- WSL (Ubuntu) の設定（Windows環境の場合）
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-     -- Ubuntu-20.04をホームディレクトリで起動
-    config.default_prog = { 'wsl.exe', '-d', 'Ubuntu-20.04', '--cd', '~' }
+    -- Ubuntu-20.04をホームディレクトリで起動
+    -- WSLを起動し、かつログインシェルとしてホームディレクトリに移動させる設定
+    config.default_prog = { 'wsl.exe', '--cd', '~' }
 elseif wezterm.target_triple == "x86_64-apple-darwin" then
     -- macOSの場合、zshをデフォルトシェルに
     config.default_prog = {'zsh'}
