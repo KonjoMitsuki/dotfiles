@@ -69,3 +69,7 @@ map("n", "<Leader>wc", "<cmd>close<CR>", opts)
 -- ===== NvimTree（ファイルツリー） =====
 -- リーダー + e: NvimTreeトグル
 map("n", "<Leader>e", "<cmd>NvimTreeToggle<CR>", opts)
+
+-- LSP関連
+-- LSPが有効なバッファで leader + ca を押すと修正案を出す
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true })

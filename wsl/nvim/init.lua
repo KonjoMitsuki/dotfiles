@@ -12,6 +12,9 @@ require('keymaps')
 -- プラグインの設定を読み込み
 require('plugins')
 
+-- lsp設定
+require('lsp')
+
 -- lazy.nvimでプラグインをセットアップ
 require("lazy").setup(require("plugins"))
 
@@ -45,3 +48,43 @@ require("nvim-autopairs").setup()
 -- TODOコメントの設定（todo-comments）
 require("todo-comments").setup()
 
+
+-- setup
+vim.cmd.colorscheme("tokyonight")
+require("lualine").setup()
+require("which-key").setup()
+require("bufferline").setup()
+require("gitsigns").setup()
+require("Comment").setup()
+require("nvim-surround").setup()
+require("nvim-autopairs").setup()
+require("todo-comments").setup()
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("cmp").setup({})
+require("luasnip")
+require("alpha").setup(require("alpha.themes.dashboard").config)
+
+-- 2. Treesitterの設定（エラー回避のため pcall を使うとより安全です）
+local status, treesitter = pcall(require, "nvim-treesitter.configs")
+if status then
+    treesitter.setup({
+        highlight = { enable = true },
+        ensure_installed = { "lua", "vim", "vimdoc", "c", "cpp" },
+    })
+end
+
+-- 3. 前の手順で作った LSP 設定を読み込む
+require('lsp')
+-- エラーの波線をはっきりした赤色に設定
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "#ff0000" })
+-- 警告の波線をオレンジ色に設定
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = "#e0af68" })
+
+vim.diagnostic.config({
+  virtual_text = true,     -- 行の横にエラー内容を表示
+  signs = true,            -- 行番号の横にアイコンを表示
+  underline = true,        -- エラー箇所に波線を引く
+  update_in_insert = false, -- 入力中も更新する
+  severity_sort = true,
+})

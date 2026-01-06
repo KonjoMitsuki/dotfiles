@@ -72,13 +72,3 @@ require("lazy").setup({
   "folke/tokyonight.nvim",
 })
 
--- keybinds 
-vim.cmd.colorscheme("tokyonight")
-require("lualine").setup()
-require("which-key").setup()
-require("bufferline").setup()
-require("gitsigns").setup()
-require("Comment").setup()
-require("nvim-surround").setup()
-require("nvim-autopairs").setup()
-require("todo-comments").setup()
