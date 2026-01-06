@@ -76,10 +76,6 @@ end
 
 -- 3. 前の手順で作った LSP 設定を読み込む
 require('lsp')
--- エラーの波線をはっきりした赤色に設定
-vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "#ff0000" })
--- 警告の波線をオレンジ色に設定
-vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = "#e0af68" })
 
 vim.diagnostic.config({
   virtual_text = true,     -- 行の横にエラー内容を表示
@@ -88,3 +84,10 @@ vim.diagnostic.config({
   update_in_insert = false, -- 入力中も更新する
   severity_sort = true,
 })
+
+-- init.lua の一番最後に追記
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "#ff0000" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = "#e0af68" })
+
+-- 下線が表示されないターミナルのためのフォールバック
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { underline = true, sp = "#ff0000" })
