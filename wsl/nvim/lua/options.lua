@@ -33,3 +33,9 @@ vim.opt.termguicolors = true
 
 -- WSL環境でのクリップボード設定（システムクリップボードとの連携）
 vim.opt.clipboard = "unnamedplus"
+
+-- ターミナルを開いた時に自動的に挿入モードに入る
+vim.api.nvim_create_autocmd({"TermOpen"}, {
+  pattern = "*",
+  command = "startinsert",
+})

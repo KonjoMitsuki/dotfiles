@@ -101,3 +101,12 @@ map('n', '<F5>', function()
 
 	vim.cmd('split | terminal ' .. cmd)
 end, opts)
+
+-- ESCキーでターミナルモードを抜ける設定 (luaの場合)
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
+
+-- Ctrl + hjkl でウィンドウ間を移動しやすくする設定
+vim.keymap.set('t', '<C-h>', [[<C-\><C-n><C-w>h]], { noremap = true })
+vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-w>j]], { noremap = true })
+vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-w>k]], { noremap = true })
+vim.keymap.set('t', '<C-l>', [[<C-\><C-n><C-w>l]], { noremap = true })
