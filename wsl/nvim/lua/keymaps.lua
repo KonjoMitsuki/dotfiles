@@ -75,3 +75,29 @@ map("n", "<Leader>e", "<cmd>NvimTreeToggle<CR>", opts)
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true })
 -- leader + k (小文字) でエラーの詳細をポップアップ表示
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, { silent = true })
+
+-- F5: Build & Run for C/C++ and Python
+map('n', '<F5>', function()
+	vim.cmd('write')
+	local ft = vim.bo.filetype
+	local file = vim.fn.expand('%:p')
+	local dir = vim.fn.expand('%:p:h')
+	local base = vim.fn.expand('%:t:r')
+	local ext = vim.fn.expand('%:e')
+	local cmd = nil
+
+	if ft == 'c' or ext == 'c' then
+		local outfile = dir .. '/' .. base
+		cmd = string.format('gcc -std=gnu11 -g %q -o %q && %q', file, outfile, outfile)
+	elseif ft == 'cpp' or ext == 'cpp' or ext == 'cc' or ext == 'cxx' then
+		local outfile = dir .. '/' .. base
+		cmd = string.format('g++ -std=c++17 -g %q -o %q && %q', file, outfile, outfile)
+	elseif ft == 'python' or ext == 'py' then
+		cmd = string.format('python3 %q', file)
+	else
+		vim.notify('No run configuration for filetype: ' .. (ft or ext), vim.log.levels.WARN)
+		return
+	end
+
+	vim.cmd('split | terminal ' .. cmd)
+end, opts)
