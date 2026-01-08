@@ -37,7 +37,7 @@ config.font_size = 12.0
 config.use_ime = true
 
 -- ウィンドウの背景不透明度
-config.window_background_opacity = 1
+config.window_background_opacity = 0.85
 
 -- macOSでの背景ブラー
 config.macos_window_background_blur = 20
