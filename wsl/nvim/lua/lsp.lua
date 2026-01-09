@@ -25,3 +25,6 @@ cmp.setup({
   })
 })
 -- 必要に応じて、LSP起動時のみ有効にしたいキーマップなどもここに記述できます
+
+-- Treesitter に関連する require や setup をコメントアウト
+-- require("nvim-treesitter.configs").setup({...})
