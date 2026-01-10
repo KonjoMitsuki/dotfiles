@@ -46,6 +46,9 @@ map("n", "<Leader>fg", "<cmd>Telescope live_grep<CR>", opts)
 -- リーダー + fb: バッファ検索
 map("n", "<Leader>fb", "<cmd>Telescope buffers<CR>", opts)
 
+-- oil.nvim ファイルマネージャーを開く
+map("n", "<Leader>o", "<cmd>Oil<CR>", opts)
+
 -- ===== Git関連 =====
 -- リーダー + gs: Gitステータス表示
 map("n", "<Leader>gs", "<cmd>Git<CR>", opts)

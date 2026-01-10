@@ -49,6 +49,16 @@ return {
     end,
   },
   {
+    "stevearc/oil.nvim",
+    cmd = "Oil",
+    config = function()
+      require("oil").setup({
+        -- 例: 隠しファイルを表示
+        view_options = { show_hidden = true },
+      })
+    end,
+  },
+  {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = "Telescope",
