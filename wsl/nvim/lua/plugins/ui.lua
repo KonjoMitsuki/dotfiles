@@ -71,14 +71,6 @@ return {
     end,
   },
   {
-    "goolord/alpha-nvim",
-    event = "VimEnter",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("alpha").setup(require("alpha.themes.dashboard").config)
-    end,
-  },
-  {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
     config = function()
@@ -87,6 +79,25 @@ return {
           char = "│",
         },
       })
+    end,
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    cmd = "ToggleTerm",
+    config = function()
+      require("toggleterm").setup({
+        size = 20,
+        direction = "float",
+        float_opts = { border = "curved", winblend = 3 },
+      })
+    end,
+  },
+  {
+    "goolord/alpha-nvim",
+    event = "VimEnter",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("alpha").setup(require("alpha.themes.dashboard").config)
     end,
   },
 }
