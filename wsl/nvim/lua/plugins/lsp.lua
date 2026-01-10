@@ -59,4 +59,37 @@ return {
       require("luasnip").setup()
     end,
   },
+  -- Treesitter本体の設定を追加
+-- wsl/nvim/lua/plugins/lsp.lua の treesitter 部分
+-- wsl/nvim/lua/plugins/lsp.lua の treesitter 部分
+
+-- wsl/nvim/lua/plugins/lsp.lua の treesitter 設定部分
+
+-- wsl/nvim/lua/plugins/lsp.lua の treesitter 部分
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      local ok, configs = pcall(require, "nvim-treesitter.configs")
+      if not ok or not configs then
+        vim.notify("nvim-treesitter not found; skipping treesitter config", vim.log.levels.WARN)
+        return
+      end
+
+      configs.setup({
+        -- エラーの元凶である "vim" をインストールリストから外す
+        ensure_installed = { "lua", "markdown", "markdown_inline" },
+        
+        -- 自動インストールも無効化
+        auto_install = false,
+
+        highlight = {
+          enable = true,
+          -- 【ここが重要】エラーが出ている "vim" 言語のハイライトを強制的にOFFにする
+          disable = { "vim" }, 
+        },
+      })
+    end,
+  },
 }
