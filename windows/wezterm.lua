@@ -52,7 +52,7 @@ config.window_decorations = "RESIZE"
 config.show_tabs_in_tab_bar = true
 
 -- タブが一つの時はタブバーを非表示
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = false
 
 -- タブバーのフレーム設定（透過）
 config.window_frame = {
