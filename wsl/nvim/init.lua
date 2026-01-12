@@ -21,6 +21,9 @@ require('options')
 -- キーマップの設定を読み込み
 require('keymaps')
 
+-- 自動保存などの autocommand を読み込み
+require('autocmds')
+
 -- lazy.nvimでプラグインをセットアップ（プラグイン内で setup が実行される）
 -- init.lua の setup 部分を修正
 require("lazy").setup(require("plugins"), {

@@ -62,17 +62,19 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-          ensure_installed = { "lua", "markdown", "markdown_inline", "c", "cpp" },
-          auto_install = false,
-          highlight = {
-            enable = true,
-            disable = { "vim" },
-          },
-        })
-    end,
+onfig = function()
+  -- 直接 nvim-treesitter.configs を require せず
+  -- プラグインのメインモジュールを呼び出すか、
+  -- 以下の新しい書き方に修正します。
+  local configs = require("nvim-treesitter.configs")
+  configs.setup({
+    ensure_installed = { "lua", "markdown", "markdown_inline", "c", "cpp" },
+    auto_install = false,
+    highlight = {
+      enable = true,
+      disable = { "vim" },
+    },
+  })
+end
   },
 }
