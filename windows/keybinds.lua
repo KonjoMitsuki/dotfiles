@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
--- Show which key table is active in the status area
+-- ステータスエリアにアクティブなキーテーブル名を表示
 wezterm.on("update-right-status", function(window, pane)
   local name = window:active_key_table()
   if name then
@@ -12,6 +12,43 @@ end)
 
 return {
   keys = {
+    -- =========================================================
+    --  ここから：Windowsライクなコピペ設定（スマートコピー）
+    -- =========================================================
+    
+    -- 【貼り付け】Ctrl + V
+    {
+      key = 'v',
+      mods = 'CTRL',
+      action = act.PasteFrom 'Clipboard'
+    },
+
+    -- 【スマートコピー】Ctrl + C
+    -- 文字を選択していればコピー、していなければ中断（SIGINT送信）
+    {
+      key = 'c',
+      mods = 'CTRL',
+      action = wezterm.action_callback(function(window, pane)
+        -- 選択範囲のテキストを取得
+        local selection_text = window:get_selection_text_for_pane(pane)
+        
+        -- 選択範囲が空でなければ（＝選択されていれば）
+        if selection_text ~= "" then
+          -- クリップボードにコピー
+          window:perform_action(act.CopyTo 'ClipboardAndPrimarySelection', pane)
+          -- コピー後に選択を解除
+          window:perform_action(act.ClearSelection, pane)
+        else
+          -- 選択されていなければ、通常の Ctrl+C（中断）を送信
+          window:perform_action(act.SendKey { key = 'c', mods = 'CTRL' }, pane)
+        end
+      end),
+    },
+
+    -- =========================================================
+    --  ここから：その他のキー設定
+    -- =========================================================
+
     {
       -- workspaceの切り替え
       key = "w",
@@ -67,9 +104,9 @@ return {
     -- コピーモード
     -- { key = 'X', mods = 'LEADER', action = act.ActivateKeyTable{ name = 'copy_mode', one_shot =false }, },
     { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
-    -- コピー
+    -- コピー (ALT+cも残しておく)
     { key = "c", mods = "ALT", action = act.CopyTo("Clipboard") },
-    -- 貼り付け
+    -- 貼り付け (ALT+vも残しておく)
     { key = "v", mods = "ALT", action = act.PasteFrom("Clipboard") },
 
     -- Pane作成 leader + r or d
@@ -116,8 +153,8 @@ return {
       action = act.ActivateKeyTable({ name = "activate_pane", timeout_milliseconds = 1000 }),
     },
   },
+  
   -- キーテーブル
-  -- https://wezfurlong.org/wezterm/config/key-tables.html
   key_tables = {
     -- Paneサイズ調整 leader + s
     resize_pane = {
@@ -125,8 +162,6 @@ return {
       { key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
       { key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
       { key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
-
-      -- Cancel the mode by pressing escape
       { key = "Enter", action = "PopKeyTable" },
     },
     activate_pane = {
