@@ -11,8 +11,8 @@ config.window_close_confirmation = "NeverPrompt"
 
 -- フォント設定（JetBrainsMono Nerd Fontを使用）
 config.font = wezterm.font("JetBrainsMono Nerd Font")
--- Draculaテーマを設定
-config.color_scheme = "Dracula"
+-- Kanagawaテーマを設定
+config.color_scheme = "Kanagawa"
 
 -- デフォルトのマウスバインディングを無効化しない
 config.disable_default_mouse_bindings = false
@@ -37,7 +37,7 @@ config.font_size = 12.0
 config.use_ime = true
 
 -- ウィンドウの背景不透明度
-config.window_background_opacity = 0.85
+config.window_background_opacity = 0.95
 
 -- macOSでの背景ブラー
 config.macos_window_background_blur = 20
@@ -51,7 +51,7 @@ config.window_decorations = "RESIZE"
 -- タブバーを表示
 config.show_tabs_in_tab_bar = true
 
--- タブが一つの時はタブバーを非表示
+-- タブが一つの時はタブバーを表示
 config.hide_tab_bar_if_only_one_tab = false
 
 -- タブバーのフレーム設定（透過）
