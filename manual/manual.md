@@ -35,7 +35,8 @@
 |---------|------|
 | `init.lua` | 初期化ファイル。他のモジュールを読み込み、全体的な設定を行う |
 | `options.lua` | 行番号、インデント、検索方式など基本的なエディタ設定 |
-| `keymaps.lua` | キーボードショートカット設定 |
+| `keymaps.lua` | キーボードショートカット設定の**実装**ファイル |
+| `keybinds.md`| キーボードショートカットの**一覧と説明** |
 | `plugins.lua` | 使用するプラグインのリスト |
 | `lsp.lua` | 言語サーバーの設定（補完、診断など） |
 | `lazy-lock.json` | プラグインのバージョン管理ファイル（自動生成） |
@@ -267,36 +268,12 @@ vim.opt.termguicolors = true       -- 24ビットカラー
 
 ### 2. キーマッピング
 
-```lua
--- キーマップの基本形式
-vim.keymap.set(mode, lhs, rhs, options)
+キーボードショートカット（キーマップ）の設定は `lua/keymaps.lua` で行います。
+具体的なキーマップの一覧は、リポジトリのルートにある以下のドキュメントを参照してください。
 
--- 例
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<leader>w", ":w<CR>", opts)
+- **[keybinds.md](./keybinds.md)**
 
--- モード指定
--- "n" - ノーマルモード
--- "i" - 挿入モード
--- "v" - ビジュアルモード
--- "c" - コマンドラインモード
--- "" - すべてのモード
-
--- キーマップオプション
-local opts = {
-  noremap = true,       -- 再マップを無効（推奨）
-  silent = true,        -- コマンド出力を表示しない
-  expr = false,         -- 式を評価するかどうか
-  buffer = 0,           -- バッファ固有のマッピング
-  desc = "Description"  -- ヘルプテキスト
-}
-
--- 実践例
-local map = vim.keymap.set
-map("i", "jj", "<Esc>", opts)                    -- 挿入モード: jjでEsc
-map("n", "H", "^", opts)                        -- ノーマルモード: H で行頭
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)  -- Telescope
-```
+このファイルが、NeovimとWezTermのすべてのキーバインドに関する最新情報源です。
 
 ### 3. コマンド定義
 

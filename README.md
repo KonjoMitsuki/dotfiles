@@ -13,6 +13,11 @@ WSL:
 ln -s ~/dotfiles/wsl/nvim ~/.config/nvim
 ln -s ~/dotfiles/common/starship.toml ~/.config/starship.toml
 ```
+
+## Keybindings
+キーボードショートカットの一覧は以下のドキュメントを参照してください。
+- [Keybindings](./keybinds.md)
+
 # 環境構築手順書 (dotfiles 導入ガイド)
 このドキュメントは、GitHub 上の dotfiles リポジトリを使用して、Windows (WezTerm) および WSL (Neovim/Starship) の環境を構築する手順をまとめたものです。
 
@@ -40,7 +45,20 @@ cd ~
 git clone git@github.com:KonjoMitsuki/dotfiles.git
 ```
 
-3. シンボリックリンクの作成
+3. アプリケーションのインストール
+> Starship (WSL)
+以下のコマンドを実行して Starship をインストールします。
+
+```Bash
+curl -sS https://starship.rs/install.sh | sh
+```
+次に、シェルが起動するたびに Starship が自動的に実行されるよう、`.bashrc` ファイルに以下の行を追加します。
+
+```Bash
+echo 'eval "$(starship init bash)"' >> ~/.bashrc
+```
+
+4. シンボリックリンクの作成
 実体ファイルを `dotfiles` フォルダに置いたまま、各アプリの設定パスへリンクを張ります。
 
 > WSL (Neovim / Starship)
@@ -59,21 +77,22 @@ ln -s ~/dotfiles/common/starship.toml ~/.config/starship.toml
 ```PowerShell
 New-Item -ItemType SymbolicLink -Path "$HOME\.wezterm.lua" -Target "$HOME\dotfiles\windows\wezterm.lua"
 ```
-4. フォントのインストール
+5. フォントのインストール
 プロンプトや UI のアイコンを正しく表示するために、JetBrainsMono Nerd Font を導入します。
 
 Nerd Fonts 公式サイト から JetBrainsMono をダウンロード。
 
 解凍した .ttf ファイルを右クリックし、「すべてのユーザーに対してインストール」を選択。
 
-5. Neovim プラグインマネージャー (lazy.nvim) の導入
+6. Neovim プラグインマネージャー (lazy.nvim) の導入
 dotfiles にはプラグイン本体を含めていないため、手動で lazy.nvim をインストールします。
 
 ディレクトリ作成とクローン
 
-Bash
+```Bash
 mkdir -p ~/.local/share/nvim/lazy
 git clone --filter=blob:none https://github.com/folke/lazy.nvim.git --branch=stable ~/.local/share/nvim/lazy/lazy.nvim
+```
 セットアップ nvim を起動すると、plugins.lua に記述されたプラグインが自動的にインストールされます。
 
 補足事項
