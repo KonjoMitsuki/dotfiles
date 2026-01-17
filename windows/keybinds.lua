@@ -4,10 +4,19 @@ local act = wezterm.action
 -- ステータスエリアにアクティブなキーテーブル名を表示
 wezterm.on("update-right-status", function(window, pane)
   local name = window:active_key_table()
+  local leader = ""
+  
+  -- リーダーキーがアクティブなら文字を入れる
+  if window:leader_is_active() then
+    leader = "LEADER "
+  end
+
   if name then
     name = "TABLE: " .. name
   end
-  window:set_right_status(name or "")
+  
+  -- リーダー状態とテーブル状態を組み合わせて表示
+  window:set_right_status(leader .. (name or ""))
 end)
 
 return {
