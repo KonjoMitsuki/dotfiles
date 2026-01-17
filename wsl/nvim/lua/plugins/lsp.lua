@@ -60,16 +60,15 @@ return {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-          ensure_installed = { "lua", "markdown", "markdown_inline", "c", "cpp" },
-          auto_install = false,
-          highlight = {
-            enable = true,
+"neovim/nvim-lspconfig",
+  dependencies = {
+    {
+      "nvim-treesitter/nvim-treesitter",
+      build = ":TSUpdate",
+      config = function()
+        require("nvim-treesitter.configs").setup({
+          highlight = { enable = true },
+        })
             disable = { "vim" },
           },
         })
