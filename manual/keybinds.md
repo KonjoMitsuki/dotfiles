@@ -62,6 +62,18 @@
 |------|------|
 | `<leader>e` | NvimTreeトグル (NvimTreeToggle) |
 
+## プラグイン関連
+| キー | 説明 |
+|------|------|
+| `<leader>o` | ファイルマネージャー (Oil) を開く |
+| `<leader>t` | フローティングターミナル (ToggleTerm) を表示/非表示 |
+
+## LSP (Language Server Protocol)
+| キー | 説明 |
+|------|------|
+| `<leader>ca` | 修正案の表示 (Code Action) |
+| `<leader>k` | カーソル下の情報のホバー表示 (Hover) |
+
 ## ターミナル関連 (Terminal Mode)
 | キー | 説明 |
 |------|------|
@@ -71,27 +83,34 @@
 ## WezTerm（端末）ショートカット
 WezTerm 設定 (examples/windows/keybinds.lua) に基づく主要ショートカット一覧。
 
+### Windows風コピペ
+| キー | 説明 |
+|---|---|
+| `Ctrl + C` | 【スマートコピー】テキスト選択時はクリップボードにコピーし、選択範囲を解除します。非選択時は中断（SIGINT）シグナルを送信します。 |
+| `Ctrl + V` | クリップボードから貼り付け |
+
+### その他のショートカット
 | キー | 説明 |
 |------|------|
 | `LEADER + w` | ワークスペース選択ランチャー表示 |
 | `LEADER + $` | ワークスペース名変更 |
 | `LEADER + W` | 新しいワークスペース作成（プロンプト） |
-| `SUPER + p` | コマンドパレット表示 |
+| `ALT + p` | コマンドパレット表示 |
 | `CTRL + Tab` / `SHIFT|CTRL + Tab` | タブ移動 |
 | `LEADER + {` / `LEADER + }` | タブを左右に移動 |
-| `SUPER + t` | 新しいタブ作成 |
-| `SUPER + w` | タブを閉じる（確認） |
+| `ALT + t` | 新しいタブ作成 |
+| `ALT + w` | タブを閉じる（確認） |
 | `ALT + Enter` | フルスクリーン切替 |
 | `LEADER + [` | Copy / Enter copy mode |
-| `SUPER + c` | クリップボードへコピー |
-| `SUPER + v` | クリップボードから貼り付け |
+| `ALT + c` | クリップボードへコピー |
+| `ALT + v` | クリップボードから貼り付け |
 | `LEADER + d` / `LEADER + r` | 縦/横でペイン分割 |
 | `LEADER + x` | ペインを閉じる（確認） |
 | `LEADER + h/l/k/j` | ペイン移動（Left/Right/Up/Down） |
 | `CTRL|SHIFT + [` | ペイン選択モード |
 | `LEADER + z` | 選択ペインのズーム切替 |
 | `CTRL + +` / `CTRL + -` / `CTRL + 0` | フォントサイズ増減/リセット |
-| `SUPER + 1..9` | 指定タブへ移動 |
+| `ALT + 1..9` | 指定タブへ移動 |
 | `SHIFT|CTRL + r` | 設定の再読み込み |
 | `LEADER + s` | ペインリサイズ用キー テーブルへ移行 |
 | `LEADER + a` | 短時間のペイン選択テーブルをアクティブにする |

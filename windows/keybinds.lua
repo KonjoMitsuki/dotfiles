@@ -1,17 +1,63 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
--- Show which key table is active in the status area
+-- ステータスエリアにアクティブなキーテーブル名を表示
 wezterm.on("update-right-status", function(window, pane)
   local name = window:active_key_table()
+  local leader = ""
+  
+  -- リーダーキーがアクティブなら文字を入れる
+  if window:leader_is_active() then
+    leader = "LEADER "
+  end
+
   if name then
     name = "TABLE: " .. name
   end
-  window:set_right_status(name or "")
+  
+  -- リーダー状態とテーブル状態を組み合わせて表示
+  window:set_right_status(leader .. (name or ""))
 end)
 
 return {
   keys = {
+    -- =========================================================
+    --  ここから：Windowsライクなコピペ設定（スマートコピー）
+    -- =========================================================
+    
+    -- 【貼り付け】Ctrl + V
+    {
+      key = 'v',
+      mods = 'CTRL',
+      action = act.PasteFrom 'Clipboard'
+    },
+
+    -- 【スマートコピー】Ctrl + C
+    -- 文字を選択していればコピー、していなければ中断（SIGINT送信）
+    {
+      key = 'c',
+      mods = 'CTRL',
+      action = wezterm.action_callback(function(window, pane)
+        -- 選択範囲のテキストを取得
+        local selection_text = window:get_selection_text_for_pane(pane)
+        
+        -- 選択範囲が空でなければ（＝選択されていれば）
+        if selection_text ~= "" then
+          -- クリップボードにコピー
+          window:perform_action(act.CopyTo 'ClipboardAndPrimarySelection', pane)
+          -- コピー後に選択を解除
+          window:perform_action(act.ClearSelection, pane)
+        else
+          -- 選択されていなければ、通常の Ctrl+C（中断）を送信
+          window:perform_action(act.SendKey { key = 'c', mods = 'CTRL' }, pane)
+        end
+      end),
+    },
+
+    -- =========================================================
+    --  ここから：その他のキー設定
+    -- =========================================================
+
     {
       -- workspaceの切り替え
       key = "w",
@@ -49,16 +95,16 @@ return {
       }),
     },
     -- コマンドパレット表示
-    { key = "p", mods = "SUPER", action = act.ActivateCommandPalette },
+    { key = "p", mods = "ALT", action = act.ActivateCommandPalette },
     -- Tab移動
     { key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
     { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
     -- Tab入れ替え
     { key = "{", mods = "LEADER", action = act({ MoveTabRelative = -1 }) },
     -- Tab新規作成
-    { key = "t", mods = "SUPER", action = act({ SpawnTab = "CurrentPaneDomain" }) },
+    { key = "t", mods = "ALT", action = act({ SpawnTab = "CurrentPaneDomain" }) },
     -- Tabを閉じる
-    { key = "w", mods = "SUPER", action = act({ CloseCurrentTab = { confirm = true } }) },
+    { key = "w", mods = "ALT", action = act({ CloseCurrentTab = { confirm = true } }) },
     { key = "}", mods = "LEADER", action = act({ MoveTabRelative = 1 }) },
 
     -- 画面フルスクリーン切り替え
@@ -67,10 +113,10 @@ return {
     -- コピーモード
     -- { key = 'X', mods = 'LEADER', action = act.ActivateKeyTable{ name = 'copy_mode', one_shot =false }, },
     { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
-    -- コピー
-    { key = "c", mods = "SUPER", action = act.CopyTo("Clipboard") },
-    -- 貼り付け
-    { key = "v", mods = "SUPER", action = act.PasteFrom("Clipboard") },
+    -- コピー (ALT+cも残しておく)
+    { key = "c", mods = "ALT", action = act.CopyTo("Clipboard") },
+    -- 貼り付け (ALT+vも残しておく)
+    { key = "v", mods = "ALT", action = act.PasteFrom("Clipboard") },
 
     -- Pane作成 leader + r or d
     { key = "d", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
@@ -94,15 +140,15 @@ return {
     { key = "0", mods = "CTRL", action = act.ResetFontSize },
 
     -- タブ切替 Cmd + 数字
-    { key = "1", mods = "SUPER", action = act.ActivateTab(0) },
-    { key = "2", mods = "SUPER", action = act.ActivateTab(1) },
-    { key = "3", mods = "SUPER", action = act.ActivateTab(2) },
-    { key = "4", mods = "SUPER", action = act.ActivateTab(3) },
-    { key = "5", mods = "SUPER", action = act.ActivateTab(4) },
-    { key = "6", mods = "SUPER", action = act.ActivateTab(5) },
-    { key = "7", mods = "SUPER", action = act.ActivateTab(6) },
-    { key = "8", mods = "SUPER", action = act.ActivateTab(7) },
-    { key = "9", mods = "SUPER", action = act.ActivateTab(-1) },
+    { key = "1", mods = "ALT", action = act.ActivateTab(0) },
+    { key = "2", mods = "ALT", action = act.ActivateTab(1) },
+    { key = "3", mods = "ALT", action = act.ActivateTab(2) },
+    { key = "4", mods = "ALT", action = act.ActivateTab(3) },
+    { key = "5", mods = "ALT", action = act.ActivateTab(4) },
+    { key = "6", mods = "ALT", action = act.ActivateTab(5) },
+    { key = "7", mods = "ALT", action = act.ActivateTab(6) },
+    { key = "8", mods = "ALT", action = act.ActivateTab(7) },
+    { key = "9", mods = "ALT", action = act.ActivateTab(-1) },
 
     -- コマンドパレット
     { key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
@@ -116,8 +162,8 @@ return {
       action = act.ActivateKeyTable({ name = "activate_pane", timeout_milliseconds = 1000 }),
     },
   },
+  
   -- キーテーブル
-  -- https://wezfurlong.org/wezterm/config/key-tables.html
   key_tables = {
     -- Paneサイズ調整 leader + s
     resize_pane = {
@@ -125,8 +171,6 @@ return {
       { key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
       { key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
       { key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
-
-      -- Cancel the mode by pressing escape
       { key = "Enter", action = "PopKeyTable" },
     },
     activate_pane = {

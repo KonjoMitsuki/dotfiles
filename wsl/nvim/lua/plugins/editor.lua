@@ -5,6 +5,13 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("Comment").setup()
+-- 【追加】Ctrl+/ でコメントトグル (Normal/Visualモード)
+      local api = require("Comment.api")
+      vim.keymap.set("n", "<C-/>", api.toggle.linewise.current, { desc = "Toggle comment" })
+      vim.keymap.set("v", "<C-/>", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { desc = "Toggle comment" })
+      -- 端末によっては C-/ が C-_ と認識される場合があるための保険
+      vim.keymap.set("n", "<C-_>", api.toggle.linewise.current, { desc = "Toggle comment" })
+      vim.keymap.set("v", "<C-_>", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { desc = "Toggle comment" })
     end,
   },
   {
