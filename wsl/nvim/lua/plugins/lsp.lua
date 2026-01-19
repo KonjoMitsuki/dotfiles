@@ -46,6 +46,7 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
+          -- Tabで確定
           ["<Tab>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
@@ -72,22 +73,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "BufReadPre", "BufNewFile" },
-<<<<<<< HEAD
-onfig = function()
-  -- 直接 nvim-treesitter.configs を require せず
-  -- プラグインのメインモジュールを呼び出すか、
-  -- 以下の新しい書き方に修正します。
-  local configs = require("nvim-treesitter.configs")
-  configs.setup({
-    ensure_installed = { "lua", "markdown", "markdown_inline", "c", "cpp" },
-    auto_install = false,
-    highlight = {
-      enable = true,
-      disable = { "vim" },
-    },
-  })
-end
-=======
     config = function()
       -- 【修正点】ここで安全確認を行います
       -- プラグインがまだインストールされていない場合は、エラーを出さずに終了します
@@ -110,6 +95,5 @@ end
         },
       })
     end,
->>>>>>> ce27636169c04abceba6fe427bad896d80752545
   },
 }
