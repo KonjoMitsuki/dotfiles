@@ -15,7 +15,7 @@ return {
         overrides = function(colors)
           return {
 	    Cursor = {fg = "black", bg = "white"},
-	    TermCursor = { fg = "brack", bg = "white"},
+	    TermCursor = { fg = "black", bg = "white"},
             NormalFloat = { bg = "none" },
             FloatBorder = { bg = "none" },
             Floating = { bg = "none" },

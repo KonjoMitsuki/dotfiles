@@ -14,6 +14,15 @@ config.font = wezterm.font("JetBrainsMono Nerd Font")
 -- Kanagawaテーマを設定
 config.color_scheme = "Kanagawa"
 
+-- カーソルの色を変更
+config.colors = {
+  tab_bar = {
+    inactive_tab_edge = "none",
+  },
+  cursor_bg = "#FFFFFF",    -- カーソルの色を白に指定
+  cursor_fg = "#000000",    -- カーソルの中の文字色（ブロック時の場合）
+}
+
 -- デフォルトのマウスバインディングを無効化しない
 config.disable_default_mouse_bindings = false
 
@@ -37,7 +46,7 @@ config.font_size = 12.0
 config.use_ime = true
 
 -- ウィンドウの背景不透明度
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.85
 
 -- macOSでの背景ブラー
 config.macos_window_background_blur = 20
