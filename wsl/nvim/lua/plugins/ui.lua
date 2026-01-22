@@ -102,6 +102,7 @@ return {
       local function _lazygit_toggle()
         lazygit:toggle()
       end
+      vim.keymap.set("n", "<leader>lg", _lazygit_toggle, { noremap = true, silent = true, desc = "Toggle Lazygit" })
     end,
   },
   {

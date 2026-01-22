@@ -60,10 +60,7 @@ map("n", "<Leader>gs", "<cmd>Git<CR>", opts)
 map("n", "<Leader>bn", "<cmd>bnext<CR>", opts)
 -- リーダー + bp: 前のバッファ
 map("n", "<Leader>bp", "<cmd>bprevious<CR>", opts)
--- リーダー + bd: バッファ削除
 map("n", "<Leader>bd", "<cmd>bdelete<CR>", opts)
--- <leader>lg で lazygit をトグル
-vim.keymap.set("n", "<leader>lg", _lazygit_toggle, { noremap = true, silent = true, desc = "Toggle Lazygit" })
 
 -- ===== ウィンドウ関連 =====
 -- リーダー + ws: 水平分割
