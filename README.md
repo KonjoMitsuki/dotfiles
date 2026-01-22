@@ -1,6 +1,5 @@
 # dotfiles
-
-## WSL
+# WSL
 - nvim
 - starship
 
