@@ -77,12 +77,7 @@ config.window_background_gradient = {
 -- タブの追加ボタンを非表示
 config.show_new_tab_button_in_tab_bar = false
 
--- タブ同士の境界線を非表示
-config.colors = {
-  tab_bar = {
-    inactive_tab_edge = "none",
-  },
-}
+
 
 -- タブの形をカスタマイズ（矢印付き）
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
