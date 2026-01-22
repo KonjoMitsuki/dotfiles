@@ -14,6 +14,8 @@ return {
         -- 必要に応じて、フローティングウィンドウなどの背景も消す上書き設定
         overrides = function(colors)
           return {
+	    Cursor = {fg = "black", bg = "white"},
+	    TermCursor = { fg = "brack", bg = "white"},
             NormalFloat = { bg = "none" },
             FloatBorder = { bg = "none" },
             Floating = { bg = "none" },
