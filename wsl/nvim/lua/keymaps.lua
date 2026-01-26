@@ -12,11 +12,13 @@ local opts = { noremap = true, silent = true }
 -- "jj" または "jk" を素早く押すとノーマルモードに戻る
 map("i", "jj", "<Esc>", opts)
 map("i", "jk", "<Esc>", opts)
-vim.keymap.set('n', '<leader>aa', ':%y+<CR>', { desc = 'Yank all to clipboard' })
+-- インサートモードで Ctrl + l を右矢印に割り当て
+vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
 -- ===== ノーマルモード(n)での便利なショートカット =====
 -- Enterキーで検索ハイライトを消す
 map("n", "<CR>", ":nohlsearch<CR>", opts)
-
+-- 全ヤンク
+vim.keymap.set('n', '<leader>aa', ':%y+<CR>', { desc = 'Yank all to clipboard' })
 -- JとKで5行ずつ高速移動
 map("n", "J", "5j", opts)
 map("n", "K", "5k", opts)
