@@ -71,6 +71,11 @@ map("n", "<Leader>ws", "<cmd>split<CR>", opts)
 map("n", "<Leader>wv", "<cmd>vsplit<CR>", opts)
 -- リーダー + wc: ウィンドウ閉じる
 map("n", "<Leader>wc", "<cmd>close<CR>", opts)
+-- ウィンドウ移動の設定
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to bottom window' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to top window' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to right window' })
 
 -- ===== NvimTree（ファイルツリー） =====
 -- リーダー + e: NvimTreeトグル
