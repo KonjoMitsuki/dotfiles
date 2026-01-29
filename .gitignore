@@ -10,3 +10,5 @@ nvim/lazy/
 
 # OS依存
 .DS_Store
+
+test.cpp
