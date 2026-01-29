@@ -31,7 +31,7 @@ copilot
 # 起動後に '/login' を実行してブラウザで認証フローに従う
 ```
 
-- 又は PAT を使う（Fine-grained Token、権限: "Copilot Requests"）:
+- 又は PAT を使う（Fine-grained Token、権限: "Copilot Requests"）:　上の認証をやればこちらはやらなくていい
 
 1. https://github.com/settings/personal-access-tokens/new でトークンを作成
 2. シェルに環境変数を設定:
