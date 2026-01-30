@@ -12,11 +12,13 @@ local opts = { noremap = true, silent = true }
 -- "jj" または "jk" を素早く押すとノーマルモードに戻る
 map("i", "jj", "<Esc>", opts)
 map("i", "jk", "<Esc>", opts)
-
+-- インサートモードで Ctrl + l を右矢印に割り当て
+vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
 -- ===== ノーマルモード(n)での便利なショートカット =====
 -- Enterキーで検索ハイライトを消す
 map("n", "<CR>", ":nohlsearch<CR>", opts)
-
+-- 全ヤンク
+vim.keymap.set('n', '<leader>aa', ':%y+<CR>', { desc = 'Yank all to clipboard' })
 -- JとKで5行ずつ高速移動
 map("n", "J", "5j", opts)
 map("n", "K", "5k", opts)
@@ -69,6 +71,11 @@ map("n", "<Leader>ws", "<cmd>split<CR>", opts)
 map("n", "<Leader>wv", "<cmd>vsplit<CR>", opts)
 -- リーダー + wc: ウィンドウ閉じる
 map("n", "<Leader>wc", "<cmd>close<CR>", opts)
+-- ウィンドウ移動の設定
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to bottom window' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to top window' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to right window' })
 
 -- ===== NvimTree（ファイルツリー） =====
 -- リーダー + e: NvimTreeトグル
