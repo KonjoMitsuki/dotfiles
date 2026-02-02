@@ -17,6 +17,23 @@ vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
 -- ===== ノーマルモード(n)での便利なショートカット =====
 -- Enterキーで検索ハイライトを消す
 map("n", "<CR>", ":nohlsearch<CR>", opts)
+-- Noice通知を今だけ消す（Insert/Normal）
+map("n", "<leader>nd", function()
+	local ok = pcall(vim.cmd, "Noice dismiss")
+	if not ok then
+		pcall(function()
+			require("notify").dismiss({ silent = true, pending = true })
+		end)
+	end
+end, { desc = "Dismiss notifications" })
+map("i", "<C-\\><C-\\>", function()
+	local ok = pcall(vim.cmd, "Noice dismiss")
+	if not ok then
+		pcall(function()
+			require("notify").dismiss({ silent = true, pending = true })
+		end)
+	end
+end, { desc = "Dismiss notifications (insert)" })
 -- 全ヤンク
 vim.keymap.set('n', '<leader>aa', ':%y+<CR>', { desc = 'Yank all to clipboard' })
 -- JとKで5行ずつ高速移動
