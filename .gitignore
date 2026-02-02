@@ -7,7 +7,7 @@ nvim/.swap/
 
 # Lazy.nvim 本体（共有しない）
 nvim/lazy/
-
+wsl/nvim/lazy-lock.json
 # OS依存
 .DS_Store
 
