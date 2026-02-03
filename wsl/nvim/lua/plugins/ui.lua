@@ -87,7 +87,7 @@ return {
     config = function()
       require("toggleterm").setup({
         size = 20,
-        direction = "float",
+        direction = "horizontal",
         float_opts = { border = "curved", winblend = 3 },
       })
 
