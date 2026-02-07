@@ -149,7 +149,6 @@ vim.keymap.set('n', '<A-down>', '<C-w>-')
 -- y / d / c / p をすべて system clipboard に寄せる
 -- =========================================
 
-local opts = { noremap = true, silent = true }
 
 -- yank
 vim.keymap.set({ "n", "v" }, "y", '"+y', opts)
