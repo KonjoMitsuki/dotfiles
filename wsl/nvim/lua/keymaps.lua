@@ -143,3 +143,22 @@ vim.keymap.set('n', '<A-left>', '<C-w><')
 vim.keymap.set('n', '<A-right>', '<C-w>>')
 vim.keymap.set('n', '<A-up>', '<C-w>+')
 vim.keymap.set('n', '<A-down>', '<C-w>-')
+
+-- =========================================
+-- Clipboard 統一設定
+-- y / d / c / p をすべて system clipboard に寄せる
+-- =========================================
+
+local opts = { noremap = true, silent = true }
+
+-- yank
+vim.keymap.set({ "n", "v" }, "y", '"+y', opts)
+vim.keymap.set("n", "yy", '"+yy', opts)
+
+-- delete / change も clipboard に入れる
+vim.keymap.set({ "n", "v" }, "d", '"+d', opts)
+vim.keymap.set({ "n", "v" }, "c", '"+c', opts)
+
+-- paste
+vim.keymap.set({ "n", "v" }, "p", '"+p', opts)
+vim.keymap.set({ "n", "v" }, "P", '"+P', opts)
