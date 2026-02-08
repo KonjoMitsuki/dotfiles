@@ -74,11 +74,11 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
     config = function()
-      require("ibl").setup({
-        indent = {
-          char = "│",
-        },
-      })
+	    if not vim.g.vscode then
+	      require("ibl").setup({
+		indent = { char = "│" },
+	      })
+	    end
     end,
   },
   {
