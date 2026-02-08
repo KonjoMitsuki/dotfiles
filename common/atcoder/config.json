@@ -1,0 +1,18 @@
+{
+	"oj-path": "/home/siiiron/.local/bin/oj",
+	"default-contest-dirname-format": "{ContestID}",
+	"default-task-dirname-format": "{tasklabel}",
+	"default-test-dirname-format": "tests",
+	"default-task-choice": "all",
+	"default-template": "cpp",
+	"default-language": "cpp",
+	"contest-dirname-format": "{contestid}",
+	"task-dirname-format": "{tasklabel}",
+	"workspace": ".",
+	"templates": {
+		"cpp": {
+			"path": "cpp/main.cpp",
+			"submit": "main.cpp"
+		}
+	}
+}

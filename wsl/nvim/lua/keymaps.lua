@@ -17,6 +17,23 @@ vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
 -- ===== ノーマルモード(n)での便利なショートカット =====
 -- Enterキーで検索ハイライトを消す
 map("n", "<CR>", ":nohlsearch<CR>", opts)
+-- Noice通知を今だけ消す（Insert/Normal）
+map("n", "<leader>nd", function()
+	local ok = pcall(vim.cmd, "Noice dismiss")
+	if not ok then
+		pcall(function()
+			require("notify").dismiss({ silent = true, pending = true })
+		end)
+	end
+end, { desc = "Dismiss notifications" })
+map("i", "<C-\\><C-\\>", function()
+	local ok = pcall(vim.cmd, "Noice dismiss")
+	if not ok then
+		pcall(function()
+			require("notify").dismiss({ silent = true, pending = true })
+		end)
+	end
+end, { desc = "Dismiss notifications (insert)" })
 -- 全ヤンク
 vim.keymap.set('n', '<leader>aa', ':%y+<CR>', { desc = 'Yank all to clipboard' })
 -- JとKで5行ずつ高速移動
@@ -110,14 +127,37 @@ map('n', '<F5>', function()
 		return
 	end
 
-	vim.cmd('split | terminal ' .. cmd)
+	vim.cmd('botright split | terminal ' .. cmd)
 end, opts)
 
 -- ESCキーでターミナルモードを抜ける設定 (luaの場合)
 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 
 -- Ctrl + hjkl でウィンドウ間を移動しやすくする設定
-vim.keymap.set('t', '<C-h>', [[<C-\><C-n><C-w>h]], { noremap = true })
-vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-w>j]], { noremap = true })
-vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-w>k]], { noremap = true })
-vim.keymap.set('t', '<C-l>', [[<C-\><C-n><C-w>l]], { noremap = true })
+vim.keymap.set('n', '<C-h>', [[<C-\><C-n><C-w>h]], { noremap = true })
+vim.keymap.set('n', '<C-j>', [[<C-\><C-n><C-w>j]], { noremap = true })
+vim.keymap.set('n', '<C-k>', [[<C-\><C-n><C-w>k]], { noremap = true })
+vim.keymap.set('n', '<C-l>', [[<C-\><C-n><C-w>l]], { noremap = true })
+-- init.lua の例 (Alt + 矢印キーでリサイズ)
+vim.keymap.set('n', '<A-left>', '<C-w><')
+vim.keymap.set('n', '<A-right>', '<C-w>>')
+vim.keymap.set('n', '<A-up>', '<C-w>+')
+vim.keymap.set('n', '<A-down>', '<C-w>-')
+
+-- =========================================
+-- Clipboard 統一設定
+-- y / d / c / p をすべて system clipboard に寄せる
+-- =========================================
+
+
+-- yank
+vim.keymap.set({ "n", "v" }, "y", '"+y', opts)
+vim.keymap.set("n", "yy", '"+yy', opts)
+
+-- delete / change も clipboard に入れる
+vim.keymap.set({ "n", "v" }, "d", '"+d', opts)
+vim.keymap.set({ "n", "v" }, "c", '"+c', opts)
+
+-- paste
+vim.keymap.set({ "n", "v" }, "p", '"+p', opts)
+vim.keymap.set({ "n", "v" }, "P", '"+P', opts)
