@@ -161,6 +161,40 @@ return {
       mods = "LEADER",
       action = act.ActivateKeyTable({ name = "activate_pane", timeout_milliseconds = 1000 }),
     },
+    -- 背景透過度の調整 (Ctrl + Alt + C で濃く、Z で薄く、X でリセット)
+    {
+      key = 'c',
+      mods = 'CTRL|ALT',
+      action = wezterm.action_callback(function(window, pane)
+        local overrides = window:get_config_overrides() or {}
+        local current_opacity = overrides.window_background_opacity or 0.85
+        local new_opacity = math.min(1.0, current_opacity + 0.05)
+        overrides.window_background_opacity = new_opacity
+        window:set_config_overrides(overrides)
+      end),
+    },
+    {
+      key = 'z',
+      mods = 'CTRL|ALT',
+      action = wezterm.action_callback(function(window, pane)
+        local overrides = window:get_config_overrides() or {}
+        local current_opacity = overrides.window_background_opacity or 0.85
+        local new_opacity = math.max(0.1, current_opacity - 0.05)
+        overrides.window_background_opacity = new_opacity
+        window:set_config_overrides(overrides)
+      end),
+    },
+    {
+      -- 透過度のリセット
+      key = 'x',
+      mods = 'CTRL|ALT',
+      action = wezterm.action_callback(function(window, pane)
+        local overrides = window:get_config_overrides() or {}
+        -- nil を代入することでオーバーライドを解除し、wezterm.lua のデフォルト値に戻す
+        overrides.window_background_opacity = nil
+        window:set_config_overrides(overrides)
+      end),
+    },
   },
   
   -- キーテーブル
@@ -236,37 +270,3 @@ return {
     },
   },
 }
--- 背景透過度の調整 (Ctrl + Alt + C で濃く、Z で薄く、X でリセット)
-    {
-      key = 'c',
-      mods = 'CTRL|ALT',
-      action = wezterm.action_callback(function(window, pane)
-        local overrides = window:get_config_overrides() or {}
-        local current_opacity = overrides.window_background_opacity or 0.85
-        local new_opacity = math.min(1.0, current_opacity + 0.05)
-        overrides.window_background_opacity = new_opacity
-        window:set_config_overrides(overrides)
-      end),
-    },
-    {
-      key = 'z',
-      mods = 'CTRL|ALT',
-      action = wezterm.action_callback(function(window, pane)
-        local overrides = window:get_config_overrides() or {}
-        local current_opacity = overrides.window_background_opacity or 0.85
-        local new_opacity = math.max(0.1, current_opacity - 0.05)
-        overrides.window_background_opacity = new_opacity
-        window:set_config_overrides(overrides)
-      end),
-    },
-    {
-      -- 透過度のリセット
-      key = 'x',
-      mods = 'CTRL|ALT',
-      action = wezterm.action_callback(function(window, pane)
-        local overrides = window:get_config_overrides() or {}
-        -- nil を代入することでオーバーライドを解除し、wezterm.lua のデフォルト値に戻す
-        overrides.window_background_opacity = nil
-        window:set_config_overrides(overrides)
-      end),
-    },
