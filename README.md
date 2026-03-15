@@ -1,100 +1,158 @@
 # dotfiles
-# WSL
-- nvim
-- starship
 
-## Windows
-- wezterm
+WSL の Neovim/Starship と Windows の WezTerm を同じリポジトリで管理するための設定です。
 
-## Setup
-WSL:
+## 対象構成
+
+- WSL: Neovim + Starship
+- Windows: WezTerm
+
+## 動作確認済み環境 (2026-03-15)
+
+- Neovim: `NVIM v0.12.0-dev-2013+g2d3dc070ce` (nightly/dev)
+- WezTerm: `wezterm 20240203-110809-5046fc22`
+- Starship: `starship 1.24.2`
+
+上記以上のバージョンを入れたい場合は、このREADME内のインストール手順で nightly もしくは最新安定版を使ってください。
+
+## 1. 事前準備
+
+### 1-1. GitHub SSH 設定
+
 ```bash
-ln -s ~/dotfiles/wsl/nvim ~/.config/nvim
-ln -s ~/dotfiles/common/starship.toml ~/.config/starship.toml
-```
-
-## Keybindings
-キーボードショートカットの一覧は以下のドキュメントを参照してください。
-- [Keybindings](./keybinds.md)
-
-# 環境構築手順書 (dotfiles 導入ガイド)
-このドキュメントは、GitHub 上の dotfiles リポジトリを使用して、Windows (WezTerm) および WSL (Neovim/Starship) の環境を構築する手順をまとめたものです。
-
-1. GitHub への SSH 接続設定
-GitHub から安全にリポジトリを操作するために SSH 鍵を設定します。
-
-SSH キーの生成 ターミナル（WSL または PowerShell）で以下を実行します。
-
-```Bash
 ssh-keygen -t ed25519 -C "your_email@example.com"
-```
-GitHub への登録 表示された公開鍵（~/.ssh/id_ed25519.pub の中身）をコピーし、GitHub の [Settings > SSH and GPG keys] に登録します。
-
-接続確認
-
-```Bash
 ssh -T git@github.com
-※ 初回接続時に聞かれる確認には yes と入力します。
 ```
-2. リポジトリのクローン
-ホームディレクトリ直下に `dotfiles` をクローンします。
 
-```Bash
+公開鍵 (`~/.ssh/id_ed25519.pub`) を GitHub の SSH keys に登録してください。
+
+### 1-2. dotfiles をクローン
+
+```bash
 cd ~
 git clone git@github.com:KonjoMitsuki/dotfiles.git
 ```
 
-3. アプリケーションのインストール
-> Starship (WSL)
-以下のコマンドを実行して Starship をインストールします。
+## 2. WSL セットアップ
 
-```Bash
+### 2-1. 必要ツールのインストール
+
+```bash
+sudo apt update
+sudo apt install -y git curl software-properties-common
+```
+
+Neovim は nightly/dev 系 (0.12.0-dev 以上) を前提にする場合、以下を実行:
+
+```bash
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+sudo apt update
+sudo apt install -y neovim
+```
+
+### 2-2. Starship のインストール
+
+```bash
 curl -sS https://starship.rs/install.sh | sh
-```
-次に、シェルが起動するたびに Starship が自動的に実行されるよう、`.bashrc` ファイルに以下の行を追加します。
-
-```Bash
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
-4. シンボリックリンクの作成
-実体ファイルを `dotfiles` フォルダに置いたまま、各アプリの設定パスへリンクを張ります。
+インストール後の確認:
 
-> WSL (Neovim / Starship)
-**WSL** のターミナルで実行します。
+```bash
+starship --version
+```
 
-```Bash
-# Neovim
+### 2-3. 設定ファイルをリンク
+
+```bash
 mkdir -p ~/.config
-ln -s ~/dotfiles/wsl/nvim ~/.config/nvim
+
+# Neovim
+ln -sfn ~/dotfiles/wsl/nvim ~/.config/nvim
+
 # Starship
-ln -s ~/dotfiles/common/starship.toml ~/.config/starship.toml
+ln -sfn ~/dotfiles/common/starship.toml ~/.config/starship.toml
 ```
-> Windows (WezTerm)
-管理者権限の PowerShell で実行します。
 
-```PowerShell
-New-Item -ItemType SymbolicLink -Path "$HOME\.wezterm.lua" -Target "$HOME\dotfiles\windows\wezterm.lua"
-```
-5. フォントのインストール
-プロンプトや UI のアイコンを正しく表示するために、JetBrainsMono Nerd Font を導入します。
+### 2-4. lazy.nvim を導入
 
-Nerd Fonts 公式サイト から JetBrainsMono をダウンロード。
-
-解凍した .ttf ファイルを右クリックし、「すべてのユーザーに対してインストール」を選択。
-
-6. Neovim プラグインマネージャー (lazy.nvim) の導入
-dotfiles にはプラグイン本体を含めていないため、手動で lazy.nvim をインストールします。
-
-ディレクトリ作成とクローン
-
-```Bash
+```bash
 mkdir -p ~/.local/share/nvim/lazy
 git clone --filter=blob:none https://github.com/folke/lazy.nvim.git --branch=stable ~/.local/share/nvim/lazy/lazy.nvim
 ```
-セットアップ nvim を起動すると、plugins.lua に記述されたプラグインが自動的にインストールされます。
 
-補足事項
-WezTerm Nightly について: 最新機能を使いたい場合は、公式サイトのインストーラーまたは scoop (versions バケット) を使用して導入します。
+### 2-5. 初回起動確認
 
-エラー対処: Key is already in use と出た場合は、既存の鍵が別のアカウントに登録されていないか確認するか、新しい鍵を生成して ~/.ssh/config で管理してください。
+```bash
+nvim
+```
+
+Neovim 起動後に以下を実行すると、プラグイン状態を確認できます。
+
+```vim
+:Lazy sync
+:checkhealth
+```
+
+バージョン確認:
+
+```bash
+nvim --version
+```
+
+## 3. Windows セットアップ
+
+### 3-1. WezTerm をインストール
+
+PowerShell で `scoop` を使って nightly を入れる場合 (推奨):
+
+```powershell
+scoop bucket add versions
+scoop install versions/wezterm-nightly
+```
+
+更新時:
+
+```powershell
+scoop update
+scoop update wezterm-nightly
+```
+
+stable を使う場合は公式サイトまたは任意のパッケージマネージャーでも構いません。
+
+### 3-2. 設定ファイルをリンク
+
+管理者権限の PowerShell で実行:
+
+```powershell
+New-Item -ItemType SymbolicLink -Path "$HOME\.wezterm.lua" -Target "$HOME\dotfiles\windows\wezterm.lua"
+```
+
+### 3-3. フォントを導入
+
+JetBrainsMono Nerd Font をインストールしてください。
+フォント未導入だと WezTerm/Neovim のアイコン表示が崩れます。
+
+バージョン確認:
+
+```powershell
+wezterm --version
+```
+
+## 4. 動作確認
+
+- WSL で `nvim` が起動する
+- Starship プロンプトが表示される
+- Windows で WezTerm 起動時に設定が反映される
+- `nvim --version` が `v0.12.0-dev` 以上
+- `wezterm --version` が `20240203-110809-5046fc22` 以上
+- `starship --version` が `1.24.2` 以上
+
+## 5. 関連ドキュメント
+
+- キーバインド一覧: [manual/keybinds.md](./manual/keybinds.md)
+- Neovim 設定ガイド: [manual/manual.md](./manual/manual.md)
+- プラグインガイド: [manual/how2plugins.md](./manual/how2plugins.md)
+- Copilot (任意): [manual/copilotONnvim.md](./manual/copilotONnvim.md)
