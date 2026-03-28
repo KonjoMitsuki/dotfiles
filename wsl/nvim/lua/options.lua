@@ -31,6 +31,12 @@ vim.opt.scrolloff = 8
 -- 24ビットカラーを有効化（より豊かな色表現）
 vim.opt.termguicolors = true
 
+-- インデントをスペース4つに統一
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+
 -- WSL環境でのクリップボード設定（システムクリップボードとの連携）
 vim.opt.clipboard = "unnamedplus"
 
