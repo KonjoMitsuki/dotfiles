@@ -17,6 +17,8 @@ vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
 -- ===== ノーマルモード(n)での便利なショートカット =====
 -- Enterキーで検索ハイライトを消す
 map("n", "<CR>", ":nohlsearch<CR>", opts)
+-- x で 1 文字削除してもクリップボードに入れない
+map("n", "x", '"_x', opts)
 -- Noice通知を今だけ消す（Insert/Normal）
 map("n", "<leader>nd", function()
 	local ok = pcall(vim.cmd, "Noice dismiss")
