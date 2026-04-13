@@ -123,7 +123,37 @@ map('n', '<F5>', function()
 		local outfile = dir .. '/' .. base
 		cmd = string.format('g++ -std=c++17 -g %q -o %q && %q', file, outfile, outfile)
 	elseif ft == 'python' or ext == 'py' then
-		cmd = string.format('python3 %q', file)
+		-- venv を探す（ファイルのディレクトリから最大5階層上まで）
+		local venv_activate = nil
+		local search_dir = dir
+
+		for _ = 1, 5 do
+			-- よく使われる venv ディレクトリ名を順番に確認
+			for _, venv_name in ipairs({ ".venv", "venv", "env", ".env" }) do
+				local activate = search_dir .. "/" .. venv_name .. "/bin/activate"
+				if vim.fn.filereadable(activate) == 1 then
+					venv_activate = activate
+					break
+				end
+			end
+
+			if venv_activate then break end
+
+			-- 一つ上の親ディレクトリへ
+			local parent = vim.fn.fnamemodify(search_dir, ":h")
+			-- ルートディレクトリ（これ以上上がれない）に達したら終了
+			if parent == search_dir then break end
+			search_dir = parent
+		end
+
+		if venv_activate then
+			-- venv をアクティベートしてから実行
+			cmd = string.format('source %q && python3 %q', venv_activate, file)
+			vim.notify("venv: " .. venv_activate, vim.log.levels.INFO)
+		else
+			-- venv がなければ通常の python3 で実行
+			cmd = string.format('python3 %q', file)
+		end
 	else
 		vim.notify('No run configuration for filetype: ' .. (ft or ext), vim.log.levels.WARN)
 		return
