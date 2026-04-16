@@ -17,6 +17,8 @@ vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
 -- ===== ノーマルモード(n)での便利なショートカット =====
 -- Enterキーで検索ハイライトを消す
 map("n", "<CR>", ":nohlsearch<CR>", opts)
+-- x で 1 文字削除してもクリップボードに入れない
+map("n", "x", '"_x', opts)
 -- Noice通知を今だけ消す（Insert/Normal）
 map("n", "<leader>nd", function()
 	local ok = pcall(vim.cmd, "Noice dismiss")
@@ -121,7 +123,37 @@ map('n', '<F5>', function()
 		local outfile = dir .. '/' .. base
 		cmd = string.format('g++ -std=c++17 -g %q -o %q && %q', file, outfile, outfile)
 	elseif ft == 'python' or ext == 'py' then
-		cmd = string.format('python3 %q', file)
+		-- venv を探す（ファイルのディレクトリから最大5階層上まで）
+		local venv_activate = nil
+		local search_dir = dir
+
+		for _ = 1, 5 do
+			-- よく使われる venv ディレクトリ名を順番に確認
+			for _, venv_name in ipairs({ ".venv", "venv", "env", ".env" }) do
+				local activate = search_dir .. "/" .. venv_name .. "/bin/activate"
+				if vim.fn.filereadable(activate) == 1 then
+					venv_activate = activate
+					break
+				end
+			end
+
+			if venv_activate then break end
+
+			-- 一つ上の親ディレクトリへ
+			local parent = vim.fn.fnamemodify(search_dir, ":h")
+			-- ルートディレクトリ（これ以上上がれない）に達したら終了
+			if parent == search_dir then break end
+			search_dir = parent
+		end
+
+		if venv_activate then
+			-- venv をアクティベートしてから実行
+			cmd = string.format('source %q && python3 %q', venv_activate, file)
+			vim.notify("venv: " .. venv_activate, vim.log.levels.INFO)
+		else
+			-- venv がなければ通常の python3 で実行
+			cmd = string.format('python3 %q', file)
+		end
 	else
 		vim.notify('No run configuration for filetype: ' .. (ft or ext), vim.log.levels.WARN)
 		return
@@ -143,3 +175,21 @@ vim.keymap.set('n', '<A-left>', '<C-w><')
 vim.keymap.set('n', '<A-right>', '<C-w>>')
 vim.keymap.set('n', '<A-up>', '<C-w>+')
 vim.keymap.set('n', '<A-down>', '<C-w>-')
+
+-- =========================================
+-- Clipboard 統一設定
+-- y / d / c / p をすべて system clipboard に寄せる
+-- =========================================
+
+
+-- yank
+vim.keymap.set({ "n", "v" }, "y", '"+y', opts)
+vim.keymap.set("n", "yy", '"+yy', opts)
+
+-- delete / change も clipboard に入れる
+vim.keymap.set({ "n", "v" }, "d", '"+d', opts)
+vim.keymap.set({ "n", "v" }, "c", '"+c', opts)
+
+-- paste
+vim.keymap.set({ "n", "v" }, "p", '"+p', opts)
+vim.keymap.set({ "n", "v" }, "P", '"+P', opts)

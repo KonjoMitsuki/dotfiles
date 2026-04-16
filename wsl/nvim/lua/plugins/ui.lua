@@ -74,11 +74,11 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
     config = function()
-      require("ibl").setup({
-        indent = {
-          char = "│",
-        },
-      })
+	    if not vim.g.vscode then
+	      require("ibl").setup({
+		indent = { char = "│" },
+	      })
+	    end
     end,
   },
   {
@@ -122,6 +122,12 @@ return {
     },
     config = function()
       local noice = require("noice")
+      local notify = require("notify")
+
+      notify.setup({
+        stages = "fade",
+        timeout = 500,
+      })
       
       -- 記事で紹介されている、特定のメッセージを画面右下(mini)に表示するヘルパー関数
       local function myMiniView(pattern, kind)
@@ -143,10 +149,10 @@ return {
         },
         -- 記事に基づいたフィルタリング設定 (routes)
         routes = {
-          -- モード表示(INSERT等)をnotifyビューへ
-          { 
-            view = "notify", 
-            filter = { event = "msg_showmode" } 
+          -- モード表示(INSERT等)は出さない
+          {
+            skip = true,
+            filter = { event = "msg_showmode" },
           },
           -- 記事で myMiniView を使って定義されている、控えめに表示したい通知群
           myMiniView("Already at .* change"),

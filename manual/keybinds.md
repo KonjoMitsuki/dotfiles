@@ -1,118 +1,139 @@
-# Neovim Keybindings
+# Keybinds Manual
 
-このドキュメントは、Neovimのキーマップ設定をまとめたものです。リーダーキーはスペースキーです。
+このファイルは、現在の設定に基づくキーバインド一覧です。
 
-## リーダーキー
-- **Leader**: `Space`
+- セットアップ手順: [../README.md](../README.md)
 
-## 入力モード (Insert Mode)
-| キー | 説明 |
-|------|------|
-| `jj` / `jk` | ノーマルモードに戻る (Esc) |
+- Neovim 実体: [wsl/nvim/lua/keymaps.lua](wsl/nvim/lua/keymaps.lua)
+- WezTerm 実体: [windows/keybinds.lua](windows/keybinds.lua)
 
-## ノーマルモード (Normal Mode)
-| キー | 説明 |
-|------|------|
-| `Enter` | 検索ハイライトを消す |
-| `J` | 下に5行移動 |
-| `K` | 上に5行移動 |
-| `H` | 行頭へ移動 |
-| `L` | 行末へ移動 |
-| `+` | カーソル下の数値を増やす |
-| `-` | カーソル下の数値を減らす |
-| `<leader>w` | 保存 (:w) |
-| `<leader>q` | 終了 (:q) |
-| `<leader>m` | ファイルから ^M (CR) を削除 |
-| `<F5>` | 現在のファイルをビルド / 実行（C/C++/Python を自動判定） |
+## 共通ルール
 
-## ビジュアルモード (Visual Mode)
-| キー | 説明 |
-|------|------|
-| `H` | 行頭へ移動 |
-| `L` | 行末へ移動 |
+- Neovim の Leader キーは Space。
 
-## Telescope (検索関連)
-| キー | 説明 |
-|------|------|
-| `<leader>ff` | ファイル検索 (find_files) |
-| `<leader>fg` | ライブgrep検索 (live_grep) |
-| `<leader>fb` | バッファ検索 (buffers) |
+## Neovim
 
-## Git関連
-| キー | 説明 |
-|------|------|
-| `<leader>gs` | Gitステータス表示 (:Git) |
+### Insert mode
 
-## バッファ関連
-| キー | 説明 |
-|------|------|
-| `<leader>bn` | 次のバッファ (bnext) |
-| `<leader>bp` | 前のバッファ (bprevious) |
-| `<leader>bd` | バッファ削除 (bdelete) |
+| キー            | 動作                                                   |
+| --------------- | ------------------------------------------------------ |
+| jj / jk         | Normal に戻る (Esc)                                    |
+| Ctrl+l          | 右へ1文字移動                                          |
+| Ctrl+\\ Ctrl+\\ | Noice 通知を閉じる（Noice が無い場合は notify を試行） |
 
-## ウィンドウ関連
-| キー | 説明 |
-|------|------|
-| `<leader>ws` | 水平分割 (split) |
-| `<leader>wv` | 垂直分割 (vsplit) |
-| `<leader>wc` | ウィンドウ閉じる (close) |
+### Normal mode: 基本編集
 
-## NvimTree (ファイルツリー)
-| キー | 説明 |
-|------|------|
-| `<leader>e` | NvimTreeトグル (NvimTreeToggle) |
+| キー     | 動作                                                  |
+| -------- | ----------------------------------------------------- |
+| Enter    | 検索ハイライト解除                                    |
+| J / K    | 5行下 / 5行上へ移動                                   |
+| H / L    | 行頭 / 行末へ移動                                     |
+| + / -    | 数値インクリメント / デクリメント                     |
+| Leader+m | ファイル内の CR (^M) を削除                           |
+| Leader+w | 保存                                                  |
+| Leader+q | 終了                                                  |
+| F5       | 現在ファイルを保存し、C/C++/Python をビルドまたは実行 |
 
-## プラグイン関連
-| キー | 説明 |
-|------|------|
-| `<leader>o` | ファイルマネージャー (Oil) を開く |
-| `<leader>t` | フローティングターミナル (ToggleTerm) を表示/非表示 |
+### Normal mode: 検索・プラグイン
 
-## LSP (Language Server Protocol)
-| キー | 説明 |
-|------|------|
-| `<leader>ca` | 修正案の表示 (Code Action) |
-| `<leader>k` | カーソル下の情報のホバー表示 (Hover) |
+| キー      | 動作                         |
+| --------- | ---------------------------- |
+| Leader+ff | Telescope find_files         |
+| Leader+fg | Telescope live_grep          |
+| Leader+fb | Telescope buffers            |
+| Leader+o  | Oil を開く                   |
+| Leader+t  | ToggleTerm を開閉            |
+| Leader+e  | NvimTree を開閉              |
+| Leader+gs | Git コマンド画面を開く       |
+| Leader+nd | 通知を閉じる（Noice/notify） |
 
-## ターミナル関連 (Terminal Mode)
-| キー | 説明 |
-|------|------|
-| `<Esc>` (terminal) | ターミナルモードを抜けてノーマルモードへ (<C-\><C-n>) |
-| `Ctrl+h/j/k/l` (terminal) | ノーマルモードに戻してウィンドウ移動（<C-\><C-n><C-w>h 等） |
+### Normal mode: バッファ・ウィンドウ
 
-## WezTerm（端末）ショートカット
-WezTerm 設定 (examples/windows/keybinds.lua) に基づく主要ショートカット一覧。
+| キー                              | 動作                        |
+| --------------------------------- | --------------------------- |
+| Leader+bn / Leader+bp             | 次 / 前のバッファ           |
+| Leader+bd                         | バッファ削除                |
+| Leader+ws / Leader+wv             | 水平 / 垂直分割             |
+| Leader+wc                         | ウィンドウを閉じる          |
+| Ctrl+h / Ctrl+j / Ctrl+k / Ctrl+l | ウィンドウ移動              |
+| Alt+Left / Alt+Right              | ウィンドウ幅を縮小 / 拡大   |
+| Alt+Up / Alt+Down                 | ウィンドウ高さを拡大 / 縮小 |
 
-### Windows風コピペ
-| キー | 説明 |
-|---|---|
-| `Ctrl + C` | 【スマートコピー】テキスト選択時はクリップボードにコピーし、選択範囲を解除します。非選択時は中断（SIGINT）シグナルを送信します。 |
-| `Ctrl + V` | クリップボードから貼り付け |
+### Visual mode
 
-### その他のショートカット
-| キー | 説明 |
-|------|------|
-| `LEADER + w` | ワークスペース選択ランチャー表示 |
-| `LEADER + $` | ワークスペース名変更 |
-| `LEADER + W` | 新しいワークスペース作成（プロンプト） |
-| `ALT + p` | コマンドパレット表示 |
-| `CTRL + Tab` / `SHIFT|CTRL + Tab` | タブ移動 |
-| `LEADER + {` / `LEADER + }` | タブを左右に移動 |
-| `ALT + t` | 新しいタブ作成 |
-| `ALT + w` | タブを閉じる（確認） |
-| `ALT + Enter` | フルスクリーン切替 |
-| `LEADER + [` | Copy / Enter copy mode |
-| `ALT + c` | クリップボードへコピー |
-| `ALT + v` | クリップボードから貼り付け |
-| `LEADER + d` / `LEADER + r` | 縦/横でペイン分割 |
-| `LEADER + x` | ペインを閉じる（確認） |
-| `LEADER + h/l/k/j` | ペイン移動（Left/Right/Up/Down） |
-| `CTRL|SHIFT + [` | ペイン選択モード |
-| `LEADER + z` | 選択ペインのズーム切替 |
-| `CTRL + +` / `CTRL + -` / `CTRL + 0` | フォントサイズ増減/リセット |
-| `ALT + 1..9` | 指定タブへ移動 |
-| `SHIFT|CTRL + r` | 設定の再読み込み |
-| `LEADER + s` | ペインリサイズ用キー テーブルへ移行 |
-| `LEADER + a` | 短時間のペイン選択テーブルをアクティブにする |
+| キー  | 動作              |
+| ----- | ----------------- |
+| H / L | 行頭 / 行末へ移動 |
 
-（詳細な key table / copy_mode のキーは WezTerm の設定ファイルを参照してください）
+### Terminal mode
+
+| キー | 動作                     |
+| ---- | ------------------------ |
+| Esc  | Terminal mode から抜ける |
+
+### LSP
+
+| キー      | 動作        |
+| --------- | ----------- |
+| Leader+ca | Code Action |
+| Leader+k  | Hover       |
+
+### Clipboard（上書き動作）
+
+以下はシステムクリップボード優先に上書きされています。
+
+| キー   | 動作                       |
+| ------ | -------------------------- |
+| y / yy | クリップボードへコピー     |
+| d      | クリップボードへ削除       |
+| c      | クリップボードへ変更       |
+| p / P  | クリップボードから貼り付け |
+
+## WezTerm
+
+### コピペ
+
+| キー          | 動作                                   |
+| ------------- | -------------------------------------- |
+| Ctrl+c        | 選択時はコピー、未選択時は SIGINT 送信 |
+| Ctrl+v        | 貼り付け                               |
+| Alt+c / Alt+v | コピー / 貼り付け                      |
+
+### ワークスペース・タブ
+
+| キー                      | 動作                   |
+| ------------------------- | ---------------------- |
+| Leader+w                  | ワークスペース選択     |
+| Leader+$                  | ワークスペース名変更   |
+| Leader+W                  | 新規ワークスペース作成 |
+| Ctrl+Tab / Shift+Ctrl+Tab | タブ移動               |
+| Leader+{ / Leader+}       | タブを左 / 右へ移動    |
+| Alt+t                     | 新規タブ               |
+| Alt+w                     | タブを閉じる           |
+| Alt+1..9                  | 指定タブへ移動         |
+
+### ペイン操作
+
+| キー                                      | 動作                                   |
+| ----------------------------------------- | -------------------------------------- |
+| Leader+d / Leader+r                       | 縦 / 横分割                            |
+| Leader+x                                  | ペインを閉じる                         |
+| Leader+h / Leader+j / Leader+k / Leader+l | ペイン移動                             |
+| Ctrl+Shift+[                              | PaneSelect                             |
+| Leader+z                                  | ペインズーム切替                       |
+| Leader+s                                  | resize_pane キーテーブルへ             |
+| Leader+a                                  | activate_pane キーテーブルへ（短時間） |
+
+### UI・その他
+
+| キー                                 | 動作                               |
+| ------------------------------------ | ---------------------------------- |
+| Alt+Enter                            | フルスクリーン切替                 |
+| Alt+p / Ctrl+Shift+p                 | コマンドパレット                   |
+| Ctrl+Shift+r                         | 設定再読み込み                     |
+| Ctrl++ / Ctrl+- / Ctrl+0             | フォント拡大 / 縮小 / リセット     |
+| Ctrl+Alt+c / Ctrl+Alt+z / Ctrl+Alt+x | 透過度を上げる / 下げる / リセット |
+
+### Copy mode
+
+Leader+[ で Copy mode に入ります。hjkl 移動、v/V/Ctrl+v 選択、y または Enter でコピー、Esc で終了できます。
