@@ -134,10 +134,19 @@
 
 ### AI (`wsl/nvim/lua/plugins/copilot.lua`)
 
-- `github/copilot.vim`
-  - 説明: AIによるコード提案を表示する。
-  - 使い方: Insert モードで提案表示、`<C-j>` で受諾。
-  - 補足: `<Leader>co` で Copilot の有効/無効を切替。
+- `zbirenbaum/copilot.lua`
+  - 説明: GitHub Copilot の補完本体。Lua ネイティブで動く。
+  - 使い方: Insert モードで ghost text を表示。`<Tab>` で Copilot 提案を優先確定し、`<C-n>` でも受諾できる。
+  - 補足: `copilot_node_command` で Node.js 22.13 以上を指定し、`panel = false` でパネルを無効化している。
+  - キー: `<Leader>co` で auto-trigger を切替。
+- `CopilotC-Nvim/CopilotChat.nvim`
+  - 説明: GitHub Copilot のチャット機能を提供する。
+  - 使い方: `<Leader>cc` でチャットペインを開閉。
+  - 補足: `model = "auto"` と日本語の `system_prompt` を設定している。
+- `yetone/avante.nvim`
+  - 説明: agent / edit 系の AI 補助。
+  - 使い方: `<Leader>av` で質問、`<Leader>aE` で edit、`<Leader>ar` で refresh、`<Leader>at` で toggle。
+  - 補足: provider は `copilot` を使用。`~/.config/github-copilot/hosts.json` または `apps.json` が必要。
 
 ## 間接依存として使用している主なプラグイン
 

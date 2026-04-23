@@ -1,6 +1,8 @@
 **概要**
 
-- WSL 上の Neovim で GitHub Copilot（CLI と `copilot.vim`）を使うための手順をまとめる。インストール作業は自分で行う前提で、必要なコマンドと確認ポイントを示す。
+- WSL 上の Neovim で GitHub Copilot を使うための手順をまとめる。
+- 現在の実装は `copilot.vim` ではなく `copilot.lua` + `CopilotChat.nvim` + `avante.nvim` を使う構成。
+- インストール作業は自分で行う前提で、必要なコマンドと確認ポイントを示す。
 
 **前提**
 
@@ -8,54 +10,48 @@
 
 **前提（確認）**
 
-- **Neovim**: `nvim --version` で最新の安定版（推奨: 0.8 以上または配布の最新パッチ）を確認
-- **Node.js / npm**: `node -v` `npm -v`（Copilot.vim の node provider / CLI が必要）
+- **Neovim**: `nvim --version` で最新の安定版を確認
+- **Node.js**: `node -v` を確認（`copilot.lua` では Node.js 22.13 以上が必要）
 - **Copilot アクセス権**: 個人または組織の Copilot サブスクリプションが必要
 
 **インストール手順（WSL / Debian・Ubuntu 系の例）**
 
-- Node.js を導入（18 系の例）:
+- Node.js を導入する場合は、22.13 以上を使う。既に NVM を使っているなら `~/.nvm/versions/node/v24.13.0/bin/node` のような新しい Node を指定できる。
+- このリポジトリでは `wsl/nvim/lua/plugins/copilot.lua` 側で `copilot_node_command` を固定している。
+- 初回認証は Copilot の device flow で行う。Neovim 側から認証を求められたら、ブラウザで案内されたコードを入力する。
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt update
-sudo apt install -y nodejs build-essential
+node -v
 ```
 
-- Copilot CLI をインストール（推奨: install スクリプト）:
+### Avante 互換の認証ファイル
+
+- `avante.nvim` は `~/.config/github-copilot/hosts.json` または `apps.json` を参照する。
+- このリポジトリでは `CopilotChat.nvim` のトークンを元に自動復元するようにしているが、手動で確認する場合は以下を見ればよい。
 
 ```bash
-curl -fsSL https://gh.io/copilot-install | bash
-# 代替: npm 経由
-# npm install -g @github/copilot
-```
-
-- Copilot CLI を認証（対話式）:
-
-```bash
-copilot
-# 起動後に '/login' を実行してブラウザで認証フローに従う
-```
-
-- 又は PAT を使う（Fine-grained Token、権限: "Copilot Requests"）:　上の認証をやればこちらはやらなくていい
-
-1. https://github.com/settings/personal-access-tokens/new でトークンを作成
-2. シェルに環境変数を設定:
-
-```bash
-echo 'export GH_TOKEN="YOUR_TOKEN_HERE"' >> ~/.bashrc
-source ~/.bashrc
+ls -la ~/.config/github-copilot/
+cat ~/.local/share/nvim/copilot_chat/tokens.json
 ```
 
 **Neovim プラグイン側（既設定）**
 
-- 既に `copilot.vim` の lazy.nvim 用プラグイン仕様を追加済み: [wsl/nvim/lua/plugins/copilot.lua](wsl/nvim/lua/plugins/copilot.lua)
-- 追加内容の要点:
-  - `event = "InsertEnter"` で挿入開始時に読み込み
-  - `cmd = { "Copilot", "CopilotSetup" }` でコマンドを遅延読み込み
-  - `vim.g.copilot_no_tab_map = true` によりデフォルトの `<Tab>` 受諾を無効化
-  - 受諾キーを `Ctrl-J` に割当（`copilot#Accept("\r")`）
-  - ノーマルモードで `:Copilot` を開くためのショートカットを `<leader>co` に設定
+- 参照ファイル: [wsl/nvim/lua/plugins/copilot.lua](wsl/nvim/lua/plugins/copilot.lua)
+- `copilot.lua` の要点:
+  - `lazy = false` で最初にセットアップ
+  - `copilot_node_command` で Node.js の実体を固定
+  - `suggestion.enabled = true` と `auto_trigger = true` で ghost text を有効化
+  - `panel.enabled = false` でパネルを無効化
+  - `<Tab>` は Copilot の提案を優先して確定し、`<C-n>` でも受諾できる
+  - `<leader>co` で auto-trigger を ON/OFF
+- `CopilotChat.nvim` の要点:
+  - `model = "auto"`
+  - 日本語の `system_prompt` を設定
+  - `<leader>cc` でチャットペインを開閉
+  - `window.layout = "vertical"` と `splitright = true` で右側に表示
+- `avante.nvim` の要点:
+  - provider に `copilot` を使用
+  - `<leader>av` / `<leader>aE` / `<leader>ar` / `<leader>at` を割当
 
 **Neovim 側の同期とセットアップ**
 
@@ -71,51 +67,46 @@ nvim
 :Lazy sync
 ```
 
-3. Copilot のセットアップを実行:
+3. ファイルを開いて挙動確認
 
-```vim
-:Copilot setup
-```
-
-4. ファイルを開いて挙動確認（挿入モードで補完候補が出るか、`Ctrl-J` で受諾できるか）
+- 挿入モードで Copilot の ghost text が出るか
+- `<Tab>` で Copilot を優先確定できるか
+- `<leader>cc` でチャットペインが開閉できるか
+- `<leader>av` で Avante が開くか
 
 **よくあるトラブルと対処**
 
-- `copilot` コマンドが見つからない: PATH を確認。インストール先が `~/.local/bin` の場合は `~/.local/bin` を `PATH` に追加。
-- Neovim の node provider が無い/エラー: `:checkhealth` を実行して `node` 関連の問題を確認。
-- 認証エラー: CLI 起動後に `/login` を再試行、または `GH_TOKEN` を正しくエクスポートしているか確認。
-- プラグインが読み込まれない: `:messages` や `:Lazy log` を確認し、`~/.local/share/nvim/lazy` 以下に `copilot.vim` が存在するか確認。
+- `Node.js 22.13 is required...` が出る: `copilot_node_command` を 22.13 以上の Node に変える。
+- `Model not found: gpt-4.1` / `gpt-4o` / `auto` が出る: `CopilotChat.nvim` の `model = "auto"` を使う。
+- `You must setup copilot with either copilot.lua or copilot.vim` が出る: `~/.config/github-copilot/hosts.json` か `apps.json` が無い。`CopilotChat.nvim` の保存トークンから復元するか、認証をやり直す。
+- `Auth error: slow_down` が出る: device flow を短時間で何度も繰り返さず、少し待ってから再認証する。
+- チャットペインが左に出る: `vim.opt.splitright = true` を確認する。
 
-**カスタム設定例（受諾キーを変えたい場合）**
+**カスタム設定例（キーを変えたい場合）**
 
-- `wsl/nvim/lua/plugins/copilot.lua` の `vim.keymap.set` を編集して好みのキーに変更してください（例: `"<C-Space>"` など）。
+- `wsl/nvim/lua/plugins/copilot.lua` の `keys` や `opts.mappings` を編集して好みのキーに変更してください。
+- 例: Copilot の受諾キー、CopilotChat の `<leader>cc`、Avante の `<leader>av` など。
 
 **補足**
 
-- CLI を使うとターミナル内で Copilot の会話型操作やリポジトリコンテキストを利用できるため、併用を推奨。
-- 会社や組織のポリシーで Copilot が無効化されている場合は管理者に確認してください。
+- CLI ベースの Copilot はこの構成では必須ではない。
+- 会社や組織のポリシーで Copilot が無効化されている場合は管理者に確認する。
 
 **使い方（まとめ）**
 
 - **Neovim（補完）**
-  - 挿入モードで補完候補が表示される
-  - 受諾: `Ctrl-J`（本設定のカスタムマップ）
-  - その他の操作は `:help copilot` を参照
-- **Neovim（コマンド）**
-  - 設定ウィザード: `:Copilot setup`
-  - ステータス/操作: `:Copilot` または `<leader>co`
-- **CLI**
-  - 起動: `copilot`
-  - 終了: `/exit` または `Ctrl-D`
-  - 初回認証: `/login`
-  - よく使うコマンド:
-    - `/help` - コマンド一覧とヘルプ
-    - `/model` - 使用するモデルの選択（Claude Sonnet 4.5、GPT-4 など）
-    - `/feedback` - フィードバック送信
-    - `/clear` - 会話履歴をクリア
-    - `/context` - 現在のコンテキスト情報を表示
-  - モデル/設定の詳細は CLI の `/help` を参照
+  - 挿入モードで ghost text が表示される
+  - 受諾: `<Tab>` または `<C-n>`
+  - `<leader>co` で自動提案の ON/OFF を切替
+- **Neovim（チャット）**
+  - `<leader>cc` で CopilotChat を開閉
+  - 右側にペインが出る
+- **Neovim（Avante）**
+  - `<leader>av` で質問
+  - `<leader>aE` で edit
+  - `<leader>ar` で refresh
+  - `<leader>at` で toggle
 
 ---
 
-更新履歴: 2026-01-29 - 初版（WSL + Neovim 向け手順）
+更新履歴: 2026-04-23 - copilot.lua / CopilotChat.nvim / avante.nvim の現行構成に更新

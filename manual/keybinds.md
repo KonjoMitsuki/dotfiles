@@ -19,6 +19,8 @@
 | --------------- | ------------------------------------------------------ |
 | jj / jk         | Normal に戻る (Esc)                                    |
 | Ctrl+l          | 右へ1文字移動                                          |
+| Tab             | Copilot 提案を優先して確定。候補が無いときは通常の Tab |
+| Ctrl+n          | Copilot 提案を直接受諾                                 |
 | Ctrl+\\ Ctrl+\\ | Noice 通知を閉じる（Noice が無い場合は notify を試行） |
 
 ### Normal mode: 基本編集
@@ -77,6 +79,17 @@
 | --------- | ----------- |
 | Leader+ca | Code Action |
 | Leader+k  | Hover       |
+
+### AI
+
+| キー      | 動作                          |
+| --------- | ----------------------------- |
+| Leader+co | Copilot の自動提案を ON/OFF   |
+| Leader+cc | CopilotChat を開閉            |
+| Leader+av | Avante の質問ペインを開く     |
+| Leader+aE | Avante の edit を開く         |
+| Leader+ar | Avante の refresh を実行      |
+| Leader+at | Avante の toggle を切り替える |
 
 ### Clipboard（上書き動作）
 
