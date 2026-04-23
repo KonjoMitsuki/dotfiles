@@ -24,6 +24,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 -- 長い行を折り返して表示
 vim.opt.wrap = true
+-- 右側に縦分割を開く
+vim.opt.splitright = true
 -- カーソル行をハイライト表示
 vim.opt.cursorline = true
 -- カーソル上下に8行の余白を確保（スクロール時の快適さ向上）

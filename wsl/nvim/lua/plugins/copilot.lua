@@ -1,26 +1,69 @@
--- Copilot（GitHub Copilot for Vim/Neovim）用の lazy.nvim プラグイン設定
+-- Copilot（Luaネイティブ） + CopilotChat 用の lazy.nvim プラグイン設定
 return {
     {
-        "github/copilot.vim",
+        "zbirenbaum/copilot.lua",
         event = "InsertEnter",
         cmd = { "Copilot" },
-        config = function()
-        -- デフォルトの <Tab> 受諾を無効化し、独自の受諾キーを割り当てる
-        vim.g.copilot_no_tab_map = true
-        vim.keymap.set("i", "<C-J>", 'copilot#Accept("")', { expr = true, silent = true, replace_keycodes = false, desc = "Copilot accept" })
-        
-        -- Copilotトグル機能
-        local copilot_enabled = true
-        vim.keymap.set("n", "<leader>co", function()
-            copilot_enabled = not copilot_enabled
-            if copilot_enabled then
-                vim.cmd("Copilot enable")
-                vim.notify("Copilot: enabled", vim.log.levels.INFO)
-            else
-                vim.cmd("Copilot disable")
-                vim.notify("Copilot: disabled", vim.log.levels.INFO)
-            end
-        end, { desc = "Toggle Copilot" })
+        keys = {
+            {
+                "<leader>co",
+                function()
+                    local suggestion = require("copilot.suggestion")
+                    vim.g.copilot_auto_trigger_enabled = vim.g.copilot_auto_trigger_enabled
+                        or true
+                    suggestion.toggle_auto_trigger()
+                    vim.g.copilot_auto_trigger_enabled = not vim.g.copilot_auto_trigger_enabled
+
+                    local status = vim.g.copilot_auto_trigger_enabled and "enabled" or "disabled"
+                    vim.notify("Copilot suggestion: " .. status, vim.log.levels.INFO)
+                end,
+                mode = "n",
+                desc = "Toggle Copilot suggestion",
+            },
+        },
+        opts = {
+            panel = {
+                enabled = false,
+            },
+            suggestion = {
+                enabled = true,
+                auto_trigger = true,
+                keymap = {
+                    accept = "<C-n>",
+                },
+            },
+        },
+        config = function(_, opts)
+            require("copilot").setup(opts)
         end,
+    },
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
+        dependencies = {
+            "zbirenbaum/copilot.lua",
+            "nvim-lua/plenary.nvim",
+        },
+        opts = {
+            debug = false,
+            window = {
+                layout = "vertical",
+                width = 0.5,
+            },
+            system_prompt = [[
+            あなたは経験豊富な日本人のシニアプログラマーです。
+            以下のルールに従って回答してください：
+            1. すべての説明は日本語で行う
+            2. コード内のコメントも日本語で記述する
+            3. 技術用語は必要に応じて英語併記する
+            4. コードは実践的で本番環境で使用できる品質にする
+            5. ベストプラクティスとデザインパターンを適用する  
+        ]],
+            question_header = "## User ",
+            answer_header = "## Copilot ",
+            error_header = "## Error ",
+        },
+        keys = {
+            { "<leader>cc", "<cmd>CopilotChatToggle<CR>", mode = "n", desc = "Toggle Copilot Chat" },
+        },
     },
 }
