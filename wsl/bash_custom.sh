@@ -38,8 +38,33 @@ alias sv='source ~/.bashrc'               # 設定を即時反映
 # -----------------------------------------------------------------------------
 # WSL / Windows
 # -----------------------------------------------------------------------------
+# winps 実行前の WSL 側ディレクトリを保存
+WINPS_PREV_DIR=""
+
 # Windows ユーザーフォルダへ移動して PowerShell 起動
-alias winps='cd /mnt/c/Users/$(cmd.exe /c "echo %USERNAME%" | tr -d "\r") && powershell.exe'
+function winps() {
+    local win_home
+    win_home="$(wslpath "$(cd /mnt/c && cmd.exe /d /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r' | tail -n 1)" 2>/dev/null)"
+    if [[ -z "$win_home" || ! -d "$win_home" ]]; then
+        echo "winps: Windows ユーザーフォルダの取得に失敗しました" >&2
+        return 1
+    fi
+    WINPS_PREV_DIR="$PWD"
+    builtin cd -- "$win_home" && powershell.exe -NoProfile
+}
+
+# winps 前の WSL ディレクトリへ戻る
+function wslback() {
+    if [[ -z "$WINPS_PREV_DIR" ]]; then
+        echo "wslback: 戻り先が未保存です。先に winps を実行してください" >&2
+        return 1
+    fi
+    if [[ ! -d "$WINPS_PREV_DIR" ]]; then
+        echo "wslback: 保存された戻り先が存在しません: $WINPS_PREV_DIR" >&2
+        return 1
+    fi
+    builtin cd -- "$WINPS_PREV_DIR"
+}
 
 # -----------------------------------------------------------------------------
 # Git
