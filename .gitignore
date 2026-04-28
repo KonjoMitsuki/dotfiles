@@ -12,3 +12,6 @@ wsl/nvim/lazy-lock.json
 .DS_Store
 
 test.cpp
+
+# Ignore AtCoder session
+common/atcoder/session.json
