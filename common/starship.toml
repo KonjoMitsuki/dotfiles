@@ -22,7 +22,8 @@ right_format = """
 $cmd_duration\
 $time\
 """
-
+# タイムアウト時間を延長（デフォルトは1000ms）
+command_timeout = 1500
 [os]
 disabled = false
 format = "[](fg:#89b4fa)[$symbol]($style)[](fg:#89b4fa)"
