@@ -37,8 +37,8 @@ Debian = "  "
 
 [sudo]
 disabled = false
-symbol = ' 󰿆 sudo'
-format = "[](fg:#eba0ac)[$symbol]($style)[](fg:#eba0ac)"
+symbol = ' 󰿆 '
+format = "[](fg:#eba0ac)[$symbol]($style)[](fg:#eba0ac)"
 style = "bold fg:#313244 bg:#eba0ac"
 
 [directory]
@@ -131,3 +131,8 @@ command = "basename \"$VIRTUAL_ENV\""
 when = "test -n \"$VIRTUAL_ENV\""
 format = "[](fg:#cba6f7)[$output]($style)[](fg:#cba6f7)"
 style = "bold fg:#313244 bg:#cba6f7"
+[custom.sudo_user]
+command = "echo $SUDO_USER"
+when = "test -n \"$SUDO_USER\""
+format = "[](fg:#eba0ac)[$output]($style)[](fg:#eba0ac)"
+style = "bold fg:#313244 bg:#eba0ac"
