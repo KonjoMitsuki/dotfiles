@@ -29,6 +29,7 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
+      "zbirenbaum/copilot.lua",
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
       "L3MON4D3/LuaSnip",

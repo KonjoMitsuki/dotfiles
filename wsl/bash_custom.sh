@@ -104,3 +104,4 @@ function sshkki() {
     ssh t2500173@bw01.kki.yamanashi.ac.jp "$@"
 }
 
+alias e='explorer.exe'
