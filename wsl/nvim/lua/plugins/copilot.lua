@@ -21,7 +21,8 @@ return {
             },
         },
         opts = {
-            copilot_node_command = "/home/siiiron/.nvm/versions/node/v24.13.0/bin/node",
+            -- node"コマンドの絶対パスを環境に合わせて動的に取得する
+            copilot_node_command = "-- "copilot_node_command = vim.fn.exepath("node"),",
             panel = {
                 enabled = false,
             },
