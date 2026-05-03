@@ -125,7 +125,6 @@ show_always = false
 format = "[](fg:#a6e3a1)[$user]($style)[](fg:#a6e3a1)"
 style_user = "bold fg:#313244 bg:#a6e3a1"
 style_root = "bold fg:#313244 bg:#eba0ac"
-when = "test -n \"$SSH_CONNECTION\""
 
 [hostname]
 ssh_only = true
