@@ -22,7 +22,7 @@ return {
         },
         opts = {
             -- node"コマンドの絶対パスを環境に合わせて動的に取得する
-            copilot_node_command = "-- "copilot_node_command = vim.fn.exepath("node"),",
+            copilot_node_command = vim.fn.exepath("node"),
             panel = {
                 enabled = false,
             },
