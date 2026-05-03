@@ -5,11 +5,10 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("Comment").setup()
--- 【追加】Ctrl+/ でコメントトグル (Normal/Visualモード)
       local api = require("Comment.api")
       vim.keymap.set("n", "<C-/>", api.toggle.linewise.current, { desc = "Toggle comment" })
       vim.keymap.set("v", "<C-/>", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { desc = "Toggle comment" })
-      -- 端末によっては C-/ が C-_ と認識される場合があるための保険
+      -- 端末によっては C-/ が C-_ として届くので両方割り当てる
       vim.keymap.set("n", "<C-_>", api.toggle.linewise.current, { desc = "Toggle comment" })
       vim.keymap.set("v", "<C-_>", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { desc = "Toggle comment" })
     end,
@@ -18,8 +17,7 @@ return {
     "kylechui/nvim-surround",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      -- v4からはkeymapsオプションが廃止されたため、引数なしでsetupを呼び出します。
-      -- 古いコードで記述されていたキーマップはデフォルト設定としてそのまま機能します。
+      -- 追加設定なしで使える
       require("nvim-surround").setup()
     end,
   },

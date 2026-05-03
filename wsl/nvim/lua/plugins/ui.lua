@@ -53,7 +53,7 @@ return {
     cmd = "Oil",
     config = function()
       require("oil").setup({
-        -- 例: 隠しファイルを表示
+        -- 隠しファイルも表示する
         view_options = { show_hidden = true },
       })
     end,
@@ -118,7 +118,7 @@ return {
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify", -- 記事にあるリッチな通知に必要
+      "rcarriga/nvim-notify",
     },
     config = function()
       local noice = require("noice")
@@ -128,8 +128,8 @@ return {
         stages = "fade",
         timeout = 500,
       })
-      
-      -- 記事で紹介されている、特定のメッセージを画面右下(mini)に表示するヘルパー関数
+
+      -- 特定のメッセージを右下の mini 表示にする
       local function myMiniView(pattern, kind)
         kind = kind or ""
         return {
@@ -143,18 +143,17 @@ return {
       end
 
       noice.setup({
-        -- 検索( / や ? )の表示を画面右下に設定
+        -- 検索( / や ? )の表示を画面右下にだす
         messages = {
           view_search = "mini",
         },
-        -- 記事に基づいたフィルタリング設定 (routes)
+        -- routes で表示を細かく調整する
         routes = {
-          -- モード表示(INSERT等)は出さない
+          -- INSERT などのモード表示は出さない
           {
             skip = true,
             filter = { event = "msg_showmode" },
           },
-          -- 記事で myMiniView を使って定義されている、控えめに表示したい通知群
           myMiniView("Already at .* change"),
           myMiniView("written"),
           myMiniView("yanked"),
@@ -169,10 +168,10 @@ return {
           myMiniView("search hit .*, continuing at", "wmsg"),
           myMiniView("E486: Pattern not found", "emsg"),
         },
-        -- デフォルトのプリセット
+        -- 標準的な表示プリセット
         presets = {
-          bottom_search = true,    -- 下部検索
-          command_palette = true,  -- コマンドパレットを中央に
+          bottom_search = true,
+          command_palette = true,
           long_message_to_split = true,
         },
       })

@@ -5,28 +5,28 @@ return {
     priority = 1000,
     config = function()
       require("kanagawa").setup({
-        -- ここを true にすると Neovim の背景色が消え、WezTerm の半透明背景が見えるようになります
+        -- Neovim の背景を透過にする
         transparent = true,
         
         -- テーマのバリエーション（"wave", "dragon", "lotus" から選択可）
         theme = "wave",
 
-        -- 必要に応じて、フローティングウィンドウなどの背景も消す上書き設定
+        -- フローティングウィンドウの見た目を少し整える
         overrides = function(colors)
           return {
-	    Cursor = {fg = "black", bg = "white"},
-	    TermCursor = { fg = "black", bg = "white"},
+            Cursor = { fg = "black", bg = "white" },
+            TermCursor = { fg = "black", bg = "white" },
             NormalFloat = { bg = "none" },
             FloatBorder = { bg = "none" },
             Floating = { bg = "none" },
-            
-            -- 行番号の背景を消したい場合（transparent=trueなら基本不要ですが念のため）
+
+            -- 必要なら行番号の背景も消せる
             -- LineNr = { bg = "none" },
           }
         end,
       })
-      
-      -- 設定を適用
+
+      -- テーマを有効化する
       vim.cmd("colorscheme kanagawa")
     end,
   },

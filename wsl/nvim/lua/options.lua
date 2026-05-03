@@ -1,8 +1,7 @@
 -- options.lua: Neovimの基本設定
 
--- 行番号を表示
+-- 行番号と相対行番号を表示
 vim.opt.number = true
--- 相対行番号を表示（カーソル行からの相対的な行番号）
 vim.opt.relativenumber = true
 
 -- マウス操作を有効化（すべてのモードでマウスを使用可能）
@@ -22,8 +21,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.ignorecase = true
 -- 大文字が含まれている場合のみ大文字小文字を区別（ignorecaseと組み合わせ）
 vim.opt.smartcase = true
--- 長い行を折り返して表示
-vim.opt.wrap = true
+-- 長い行を折り返して表示しない
+vim.opt.wrap = false
 -- 右側に縦分割を開く
 vim.opt.splitright = true
 -- カーソル行をハイライト表示

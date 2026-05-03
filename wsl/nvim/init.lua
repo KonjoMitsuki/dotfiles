@@ -1,7 +1,6 @@
--- init.lua: Neovimの初期化ファイル
+-- Neovimの初期化ファイル
 
--- lazy.nvimのパスをランタイムパスに追加（プラグインマネージャーの読み込み）
--- wsl/nvim/init.lua の冒頭をこれに差し替え
+-- lazy.nvim を bootstrap する
 local lazy_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazy_path) then
   vim.fn.system({
@@ -15,25 +14,16 @@ if not vim.loop.fs_stat(lazy_path) then
 end
 vim.opt.rtp:prepend(lazy_path)
 
--- 基本オプションの設定を読み込み
 require('options')
-
--- キーマップの設定を読み込み
 require('keymaps')
-
--- 自動保存などの autocommand を読み込み
 require('autocmds')
 
--- lazy.nvimでプラグインをセットアップ（プラグイン内で setup が実行される）
--- init.lua の setup 部分を修正
+-- lazy.nvim でプラグインをセットアップする
 require("lazy").setup(require("plugins"), {
-  root = vim.fn.stdpath("data") .. "/lazy", -- インストール先を明示
+  root = vim.fn.stdpath("data") .. "/lazy",
 })
 
--- lsp設定（plugins 読み込み後に実行）
--- require('lsp')
-
--- 診断設定
+-- 診断表示の設定
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,

@@ -12,14 +12,12 @@ local opts = { noremap = true, silent = true }
 -- "jj" または "jk" を素早く押すとノーマルモードに戻る
 map("i", "jj", "<Esc>", opts)
 map("i", "jk", "<Esc>", opts)
--- インサートモードで Ctrl + l を右矢印に割り当て
 vim.keymap.set('i', '<C-l>', '<Right>', { noremap = true })
--- ===== ノーマルモード(n)での便利なショートカット =====
--- Enterキーで検索ハイライトを消す
+
+-- ノーマルモード
 map("n", "<CR>", ":nohlsearch<CR>", opts)
--- x で 1 文字削除してもクリップボードに入れない
-map("n", "x", '"_x', opts)
--- Noice通知を今だけ消す（Insert/Normal）
+map("n", "x", '"_x', opts) -- "x" で削除してもクリップボードに追加しない
+-- Noice がなくても通知を消せるようにする
 map("n", "<leader>nd", function()
 	local ok = pcall(vim.cmd, "Noice dismiss")
 	if not ok then
