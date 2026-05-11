@@ -128,7 +128,7 @@ style_root = "bold fg:#313244 bg:#eba0ac"
 
 [hostname]
 ssh_only = true
-format = "[󰒋 $hostname]($style)[](fg:#a6e3a1) "
+format = "[](fg:#89b4fa)[$hostname]($style)[](fg:#89b4fa) "
 style = "bold fg:#313244 bg:#a6e3a1"
 trim_at = "."
 
