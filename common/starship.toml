@@ -122,7 +122,7 @@ error_symbol = "[❯](bold #eba0ac)[❯](bold #f38ba8)[❯](bold #f17497)"
 
 [username]
 show_always = false
-format = "[](fg:#a6e3a1)[$user]($style)[](fg:#a6e3a1)"
+format = "[](fg:#a6e3a1)[$user]($style)[](fg:#a6e3a1)"
 style_user = "bold fg:#313244 bg:#a6e3a1"
 style_root = "bold fg:#313244 bg:#eba0ac"
 
