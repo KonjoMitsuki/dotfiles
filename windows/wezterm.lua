@@ -10,7 +10,11 @@ config.automatically_reload_config = true
 config.window_close_confirmation = "NeverPrompt"
 
 -- フォント設定（JetBrainsMono Nerd Fontを使用）
-config.font = wezterm.font("JetBrainsMono Nerd Font")
+config.font = wezterm.font_with_fallback({
+  'Consolas',
+  'Courier New',
+  'JetBrainsMono Nerd Font',
+})
 -- Kanagawaテーマを設定
 config.color_scheme = "Kanagawa"
 
