@@ -86,10 +86,6 @@
 | --------- | ----------------------------- |
 | Leader+co | Copilot の自動提案を ON/OFF   |
 | Leader+cc | CopilotChat を開閉            |
-| Leader+av | Avante の質問ペインを開く     |
-| Leader+aE | Avante の edit を開く         |
-| Leader+ar | Avante の refresh を実行      |
-| Leader+at | Avante の toggle を切り替える |
 
 ### Clipboard（上書き動作）
 

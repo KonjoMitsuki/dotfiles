@@ -143,10 +143,6 @@
   - 説明: GitHub Copilot のチャット機能を提供する。
   - 使い方: `<Leader>cc` でチャットペインを開閉。
   - 補足: `model = "auto"` と日本語の `system_prompt` を設定している。
-- `yetone/avante.nvim`
-  - 説明: agent / edit 系の AI 補助。
-  - 使い方: `<Leader>av` で質問、`<Leader>aE` で edit、`<Leader>ar` で refresh、`<Leader>at` で toggle。
-  - 補足: provider は `copilot` を使用。`~/.config/github-copilot/hosts.json` または `apps.json` が必要。
 
 ## 間接依存として使用している主なプラグイン
 

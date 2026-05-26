@@ -1,7 +1,7 @@
 **概要**
 
 - WSL 上の Neovim で GitHub Copilot を使うための手順をまとめる。
-- 現在の実装は `copilot.vim` ではなく `copilot.lua` + `CopilotChat.nvim` + `avante.nvim` を使う構成。
+- 現在の実装は `copilot.vim` ではなく `copilot.lua` + `CopilotChat.nvim` を使う構成。
 - インストール作業は自分で行う前提で、必要なコマンドと確認ポイントを示す。
 
 **前提**
@@ -24,16 +24,6 @@
 node -v
 ```
 
-### Avante 互換の認証ファイル
-
-- `avante.nvim` は `~/.config/github-copilot/hosts.json` または `apps.json` を参照する。
-- このリポジトリでは `CopilotChat.nvim` のトークンを元に自動復元するようにしているが、手動で確認する場合は以下を見ればよい。
-
-```bash
-ls -la ~/.config/github-copilot/
-cat ~/.local/share/nvim/copilot_chat/tokens.json
-```
-
 **Neovim プラグイン側（既設定）**
 
 - 参照ファイル: [wsl/nvim/lua/plugins/copilot.lua](wsl/nvim/lua/plugins/copilot.lua)
@@ -49,9 +39,6 @@ cat ~/.local/share/nvim/copilot_chat/tokens.json
   - 日本語の `system_prompt` を設定
   - `<leader>cc` でチャットペインを開閉
   - `window.layout = "vertical"` と `splitright = true` で右側に表示
-- `avante.nvim` の要点:
-  - provider に `copilot` を使用
-  - `<leader>av` / `<leader>aE` / `<leader>ar` / `<leader>at` を割当
 
 **Neovim 側の同期とセットアップ**
 
@@ -72,20 +59,18 @@ nvim
 - 挿入モードで Copilot の ghost text が出るか
 - `<Tab>` で Copilot を優先確定できるか
 - `<leader>cc` でチャットペインが開閉できるか
-- `<leader>av` で Avante が開くか
 
 **よくあるトラブルと対処**
 
 - `Node.js 22.13 is required...` が出る: `copilot_node_command` を 22.13 以上の Node に変える。
 - `Model not found: gpt-4.1` / `gpt-4o` / `auto` が出る: `CopilotChat.nvim` の `model = "auto"` を使う。
-- `You must setup copilot with either copilot.lua or copilot.vim` が出る: `~/.config/github-copilot/hosts.json` か `apps.json` が無い。`CopilotChat.nvim` の保存トークンから復元するか、認証をやり直す。
 - `Auth error: slow_down` が出る: device flow を短時間で何度も繰り返さず、少し待ってから再認証する。
 - チャットペインが左に出る: `vim.opt.splitright = true` を確認する。
 
 **カスタム設定例（キーを変えたい場合）**
 
 - `wsl/nvim/lua/plugins/copilot.lua` の `keys` や `opts.mappings` を編集して好みのキーに変更してください。
-- 例: Copilot の受諾キー、CopilotChat の `<leader>cc`、Avante の `<leader>av` など。
+- 例: Copilot の受諾キー、CopilotChat の `<leader>cc` など。
 
 **補足**
 
@@ -101,12 +86,7 @@ nvim
 - **Neovim（チャット）**
   - `<leader>cc` で CopilotChat を開閉
   - 右側にペインが出る
-- **Neovim（Avante）**
-  - `<leader>av` で質問
-  - `<leader>aE` で edit
-  - `<leader>ar` で refresh
-  - `<leader>at` で toggle
 
 ---
 
-更新履歴: 2026-04-23 - copilot.lua / CopilotChat.nvim / avante.nvim の現行構成に更新
+更新履歴: 2026-05-26 - copilot.lua / CopilotChat.nvim の現行構成に更新
