@@ -4,6 +4,16 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
+    config = require("lspconfig")
+
+    --C/C++用のclangdを追加
+    lspconfig.clangd.setup({
+      cmd = {
+          "clangd",
+          "--query-driver=/usr/bin/clang++,/usr/bin/gcc", 
+      },
+    })
+    end,
   },
 
   -- 2. Mason (LSPサーバー管理)
