@@ -4,15 +4,17 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    config = require("lspconfig")
-
-    --C/C++用のclangdを追加
-    lspconfig.clangd.setup({
-      cmd = {
+    config = function()
+      -- C/C++用のclangd設定（Neovim 0.11+ ネイティブAPI）
+      vim.lsp.config("clangd", {
+        cmd = {
           "clangd",
-          "--query-driver=/usr/bin/clang++,/usr/bin/gcc", 
-      },
-    })
+          "--query-driver=/usr/bin/clang++,/usr/bin/gcc",
+        },
+      })
+
+      -- 言語サーバー（clangd）を明示的に有効化
+      vim.lsp.enable("clangd")
     end,
   },
 
