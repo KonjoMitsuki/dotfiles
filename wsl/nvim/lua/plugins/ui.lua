@@ -40,23 +40,41 @@ return {
     "nvim-tree/nvim-tree.lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    config = function()
-      require("nvim-tree").setup({
-        view = {
-          width = 30,
-        },
-      })
-    end,
+    opts = {
+      disable_netrw = false,
+      hijack_netrw = false,
+      view = {
+        width = 30,
+      },
+    },
   },
   {
-    "stevearc/oil.nvim",
-    cmd = "Oil",
-    config = function()
-      require("oil").setup({
-        -- 隠しファイルも表示する
-        view_options = { show_hidden = true },
-      })
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    init = function()
+      vim.g.loaded_netrwPlugin = 1
     end,
+    keys = {
+      {
+        "<leader>-",
+        "<cmd>Yazi<cr>",
+        desc = "Yaziを開く",
+      },
+      {
+        "<leader>cw",
+        "<cmd>Yazi cwd<cr>",
+        desc = "カレントディレクトリでYaziを開く",
+      },
+    },
+    opts = {
+      open_for_directories = true,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
   },
   {
     "nvim-telescope/telescope.nvim",

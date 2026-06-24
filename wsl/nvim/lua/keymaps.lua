@@ -65,8 +65,6 @@ map("n", "<Leader>fg", "<cmd>Telescope live_grep<CR>", opts)
 -- リーダー + fb: バッファ検索
 map("n", "<Leader>fb", "<cmd>Telescope buffers<CR>", opts)
 
--- oil.nvim ファイルマネージャーを開く
-map("n", "<Leader>o", "<cmd>Oil<CR>", opts)
 -- toggleterm.nvim ターミナルを開く
 map("n", "<Leader>t", "<cmd>ToggleTerm<CR>", opts)
 
