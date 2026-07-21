@@ -107,7 +107,7 @@ function sshkki() {
 alias e='explorer.exe'
 
 // antigravityを開く
-agy() {
+ag() {
   local DISTRO=$WSL_DISTRO_NAME
   local AG_EXE="/mnt/c/Users/[Windowsのユーザー名]/AppData/Local/Programs/Antigravity/bin/antigravity"
   local TARGET="${1:-.}"
