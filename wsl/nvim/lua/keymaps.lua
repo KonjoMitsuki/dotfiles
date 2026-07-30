@@ -51,7 +51,7 @@ map("n", "+", "<C-a>", opts)
 map("n", "-", "<C-x>", opts)
 
 -- ^M（改行コード）をファイル全体から削除する
-map("n", "<leader>m", ":%s/\\r//g<CR>", opts)
+map("n", "<leader>cr", ":%s/\\r//g<CR>", opts)
 
 -- リーダー + w で保存、リーダー + q で終了
 map("n", "<leader>w", ":w<CR>", opts)

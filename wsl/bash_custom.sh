@@ -109,7 +109,7 @@ alias e='explorer.exe'
 // antigravityを開く
 ag() {
   local DISTRO=$WSL_DISTRO_NAME
-  local AG_EXE="/mnt/c/Users/[Windowsのユーザー名]/AppData/Local/Programs/Antigravity/bin/antigravity"
+  local AG_EXE="/mnt/c/Users/Siiir/AppData/Local/Programs/Antigravity/bin/antigravity"
   local TARGET="${1:-.}"
   local ABS_PATH=$(readlink -f "$TARGET")
   "$AG_EXE" --remote wsl+"$DISTRO" "$ABS_PATH"
